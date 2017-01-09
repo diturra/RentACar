@@ -295,13 +295,22 @@
 
 	var dateTimeForm = function() {
 		// $('#date-start').datepicker();
-		$('#date').datetimepicker({
-         format: 'DD/MM/YYYY'
-     	});
-		$('#time').datetimepicker({
-			format: 'LT'	
-		});
+	    $('#datedesde').datetimepicker({
+	        format: 'DD/MM/YYYY'
+	    });
+	    console.log("asd");
+	    $('#timedesde').datetimepicker({
+	        format: 'LT'
+	    });
 
+	    $('#datehasta').datetimepicker({
+	        format: 'DD/MM/YYYY'
+	    });
+
+	    $('#timehasta').datetimepicker({
+	        format: 'LT'
+	    });
+	    console.log("zizi");
 		
 	};
 
