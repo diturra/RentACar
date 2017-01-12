@@ -49,9 +49,8 @@ namespace RentaCar.Models
     public class LoginViewModel
     {
         [Required]
-        [Display(Name = "Correo electrónico")]
-        [EmailAddress]
-        public string Email { get; set; }
+        [Display(Name = "Numero de telefono")]
+        public string Numero { get; set; }
 
         [Required]
         [DataType(DataType.Password)]
@@ -64,6 +63,18 @@ namespace RentaCar.Models
 
     public class RegisterViewModel
     {
+        [Required]
+        [Display(Name = "Nombre")]
+        public string Nombre { get; set; }
+        [Required]
+        [Display(Name = "Apellido")]
+        public string Apellido { get; set; }
+
+        [Required]
+        [Display(Name ="Numero de telefono")]
+        [StringLength(15, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
+        public string Telefono { get; set; }
+
         [Required]
         [EmailAddress]
         [Display(Name = "Correo electrónico")]

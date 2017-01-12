@@ -1,4 +1,6 @@
-﻿using System;
+﻿using RentaCar.Datos;
+using RentaCar.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
@@ -28,6 +30,18 @@ namespace RentaCar.Controllers
 
         public ActionResult Contact()
         {
+            ViewBag.Message = "Your contact page.";
+
+            return View();
+        }
+        public ActionResult Buscar(BuscadorPrincipal model)
+        {
+            RentaCarEntities db = new RentaCarEntities();
+
+            if (!string.IsNullOrEmpty(model.Fechadesde) || !string.IsNullOrEmpty(model.Fechahasta))
+            {
+
+            }
             ViewBag.Message = "Your contact page.";
 
             return View();

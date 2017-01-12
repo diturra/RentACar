@@ -1,15 +1,16 @@
 ﻿@model RentaCar.Models.ExternalLoginListViewModel
 @using Microsoft.Owin.Security
 
-<h4>Use otro servicio para iniciar sesión.</h4>
+<h4>Queremos tu confianza.</h4>
 <hr />
 @{
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
     if (loginProviders.Count() == 0) {
         <div>
             <p>
-                No hay servicios de autenticación externos configurados. Consulte <a href="http://go.microsoft.com/fwlink/?LinkId=403804">este artículo</a>
-                para obtener más información acerca de la configuración de esta aplicación ASP.NET para admitir el inicio de sesión mediante servicios externos.
+                Escribir algo o una imagen --Escribir algo o una imagen --Escribir algo o una imagen --
+                Escribir algo o una imagen --Escribir algo o una imagen --Escribir algo o una imagen --Escribir algo o una imagen --
+                Escribir algo o una imagen --
             </p>
         </div>
     }

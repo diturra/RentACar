@@ -1,31 +1,165 @@
 ﻿@{
     ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<div class="jumbotron">
-    <h1>ASP.NET</h1>
-    <p class="lead">ASP.NET is a free web framework for building great Web sites and Web applications using HTML, CSS and JavaScript.</p>
-    <p><a href="http://asp.net" class="btn btn-primary btn-lg">Learn more &raquo;</a></p>
+<header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url('../../Imagenes/Fondo_Index.jpg');" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="gtco-container">
+        <div class="row">
+            <div class="col-md-12 col-md-offset-0 text-left">
+
+                <div class="row row-mt-10em">
+                    <div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
+                        <span class="intro-text-small"> Reserva tu vehiculo <a>ONLINE</a></span>
+                        <h1 class="cursive-font">De forma segura y confiable!</h1>
+                    </div>
+                    <div class="col-md-4 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
+                        <div class="form-wrap">
+                            <div class="tab">
+
+                                <div class="tab-content">
+                                    <div class="tab-content-inner active" data-content="signup">
+                                        <h3 class="cursive-font">Buscar</h3>
+                                        @using (Html.BeginForm("Buscar", "Home", FormMethod.Get, new {  }))
+                                        {
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    @*<label for="date-start">Fecha de salida</label>*@
+                                                    <input type="text" name="Fechadesde" id="datedesde" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label for="date-start">Hora de salida</label>
+                                                    <input type="text" id="timedesde" name="Timedesde" class="form-control">
+                                                </div>
+                                            </div>
+                                            <hr />
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label for="date-start">Fecha de retorno</label>
+                                                    <input type="text" name="Fechahasta" id="datehasta" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <label for="date-start">Hora de retorno</label>
+                                                    <input type="text" id="timehasta" name="Timehasta" class="form-control">
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <div class="col-md-12">
+                                                    <input type="submit" class="btn btn-primary btn-block" value="Buscar">
+                                                </div>
+                                            </div>
+                                        }
+                                    </div>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+</header>
+
+
+<div class="gtco-section">
+    <div class="gtco-container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
+                <h2 class="primary-color">Nuestros vehiculos</h2>
+                <p>Contamos con vehiculos en excelente estado y para sentirte seguro con sistema GPS.</p>
+            </div>
+        </div>
+        <div class="row">
+            @Html.Partial("_CartaVehiculo")
+        </div>
+    </div>
 </div>
 
-<div class="row">
-    <div class="col-md-4">
-        <h2>Getting started</h2>
-        <p>
-            ASP.NET MVC gives you a powerful, patterns-based way to build dynamic websites that
-            enables a clean separation of concerns and gives you full control over markup
-            for enjoyable, agile development.
-        </p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301865">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Get more libraries</h2>
-        <p>NuGet is a free Visual Studio extension that makes it easy to add, remove, and update libraries and tools in Visual Studio projects.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301866">Learn more &raquo;</a></p>
-    </div>
-    <div class="col-md-4">
-        <h2>Web Hosting</h2>
-        <p>You can easily find a web hosting company that offers the right mix of features and price for your applications.</p>
-        <p><a class="btn btn-default" href="http://go.microsoft.com/fwlink/?LinkId=301867">Learn more &raquo;</a></p>
+<div id="gtco-features">
+    <div class="gtco-container">
+        <div class="row">
+            <div class="col-md-8 col-md-offset-2 text-center gtco-heading animate-box">
+                <h2>Nuestros servicios</h2>
+                <p>En Loyca es tres simples pasos puedes pedir tu vehiculo.</p>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-4 col-sm-6">
+                <div class="feature-center animate-box" data-animate-effect="fadeIn">
+                    <span class="icon">
+                        <i class="ti-car"></i>
+                    </span>
+                    <h3>Escoger</h3>
+                    <p>Reserva tu vehiculo online a traves de nuesro formulario, escoge cual te acomoda y reservalo</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="feature-center animate-box" data-animate-effect="fadeIn">
+                    <span class="icon">
+                        <i class="ti-money"></i>
+                    </span>
+                    <h3>Pago</h3>
+                    <p>Paga la reserva a traves de una transferencia electronica, o efectivo al momento del encuentro</p>
+                </div>
+            </div>
+            <div class="col-md-4 col-sm-6">
+                <div class="feature-center animate-box" data-animate-effect="fadeIn">
+                    <span class="icon">
+                        <i class="ti-check"></i>
+                    </span>
+                    <h3>El vehiculo listo para usar</h3>
+                    <p>Listo ! te hacemos llegar el vehiculo donde te encuentres</p>
+                </div>
+            </div>
+
+        </div>
     </div>
 </div>
+
+<div class="gtco-cover gtco-cover-sm" style="" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="gtco-container text-center">
+        <div class="display-t">
+            <div class="display-tc">
+                <h1>&ldquo; Te sentiras seguro y confiado al momento de conocernos&rdquo;</h1>
+                <p>&mdash; Marco Olavarria, fundador proyecto Loyca.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<footer id="gtco-footer" role="contentinfo" data-stellar-background-ratio="0.5">
+    <div class="overlay"></div>
+    <div class="gtco-container">
+        <div class="row row-pb-md">
+
+
+            <div class="col-md-12 text-center">
+                <div class="gtco-widget">
+                    <h3>Contacto Directo.</h3>
+                    <ul class="gtco-quick-contact">
+                        <li><i class=""></i> +1 234 567 890</li>
+                        <li><i class="ti-email"></i> info@GetTemplates.co</li>
+
+                    </ul>
+                </div>
+                <div class="gtco-widget">
+                    <h3>Estamos en las redes sociales</h3>
+                    <ul class="gtco-social-icons">
+                        <li><a href="#"><i class="ti-facebook"></i></a></li>
+                        <li><a href="#"><i class="ti-twitter"></i></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</footer>
