@@ -40,11 +40,13 @@ namespace RentaCar.Controllers
 
             if (!string.IsNullOrEmpty(model.Fechadesde) || !string.IsNullOrEmpty(model.Fechahasta))
             {
-
+                Session["fechas"] = model;
+                //var vehiculosdisponible = db.Vehiculo.Where(x => x.disponible);
             }
+           var lista = db.Vehiculo.ToList();
             ViewBag.Message = "Your contact page.";
 
-            return View();
+            return View(lista);
         }
     }
 }

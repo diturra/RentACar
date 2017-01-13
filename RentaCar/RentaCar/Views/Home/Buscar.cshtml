@@ -1,0 +1,34 @@
+﻿@model IEnumerable<RentaCar.Datos.Vehiculo>
+@{
+    ViewBag.Title = "Buscar";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<br />
+<div class="gtco-container">
+    <h2 class="primary-color">Vehículos</h2>
+    @Html.Partial("_Buscador")
+    <div class="col-md-9">
+        <div class="row">
+            @foreach(var item in Model)
+            {
+                <div class="col-lg-12 col-md-12 col-sm-6">
+                    <div class="fh5co-card-item">
+                        <figure>
+                            <img src="@item.url_foto"  alt="Image" class="img-responsive" />
+                        </figure>
+                        <br />
+                        <div class="fh5co-text">
+                            <h2>@item.modelo</h2>
+                            <p>Far far away, behind the word mountains, far from the countries Vokalia..</p>
+
+                            <p><span>Valor Diario:</span></p>
+                            <p><span class="price cursive-font">@string.Format("{0} {1:N0}","$",item.valor)</span></p>
+                        </div>
+                    </div>
+                </div>
+            }
+           
+        </div>
+    </div>
+
+</div>

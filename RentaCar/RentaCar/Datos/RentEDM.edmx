@@ -92,6 +92,7 @@
           <Property Name="abono" Type="int" Nullable="false" />
           <Property Name="valor" Type="int" Nullable="false" />
           <Property Name="url_foto" Type="varchar" MaxLength="200" Nullable="false" />
+          <Property Name="disponible" Type="bit" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -266,6 +267,7 @@
           <Property Name="url_foto" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Categoria" Relationship="Self.FK_Vehiculo_Categoria" FromRole="Vehiculo" ToRole="Categoria" />
           <NavigationProperty Name="Orden" Relationship="Self.FK_Orden_Vehiculo" FromRole="Vehiculo" ToRole="Orden" />
+          <Property Name="disponible" Type="Boolean" Nullable="false" />
         </EntityType>
         <Association Name="FK_Vehiculo_Categoria">
           <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
@@ -451,6 +453,7 @@
           <EntitySetMapping Name="Vehiculo">
             <EntityTypeMapping TypeName="RentaCarModel.Vehiculo">
               <MappingFragment StoreEntitySet="Vehiculo">
+                <ScalarProperty Name="disponible" ColumnName="disponible" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="categoriaID" ColumnName="categoriaID" />
                 <ScalarProperty Name="modelo" ColumnName="modelo" />

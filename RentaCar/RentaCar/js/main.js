@@ -294,23 +294,24 @@
 
 
 	var dateTimeForm = function() {
-		// $('#date-start').datepicker();
+		
+ 
+		
 	    $('#datedesde').datetimepicker({
-	        format: 'DD/MM/YYYY'
+	        format: 'DD-MM-YYYY'
 	    });
-	    console.log("asd");
+
 	    $('#timedesde').datetimepicker({
 	        format: 'LT'
 	    });
 
 	    $('#datehasta').datetimepicker({
-	        format: 'DD/MM/YYYY'
+	        format: 'DD-MM-YYYY'
 	    });
 
 	    $('#timehasta').datetimepicker({
 	        format: 'LT'
 	    });
-	    console.log("zizi");
 		
 	};
 

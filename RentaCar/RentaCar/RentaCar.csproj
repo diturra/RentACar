@@ -200,6 +200,7 @@
     <Compile Include="Controllers\AccountController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\VehiculoController.cs" />
     <Compile Include="Datos\AspNetRoles.cs">
       <DependentUpon>RentEDM.tt</DependentUpon>
     </Compile>
@@ -280,9 +281,11 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="fonts\glyphicons-halflings-regular.ttf" />
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
-    <Content Include="fonts\themify.svg" />
+    <Content Include="fonts\themify-icons\themify.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Imagenes\Autos\Autoazul.jpg" />
+    <Content Include="Imagenes\Autos\AutoRojo.png" />
     <Content Include="Imagenes\auto_registro.jpg" />
     <Content Include="Imagenes\Fondo_Index.jpg" />
     <Content Include="js\bootstrap-datepicker.min.js" />
@@ -301,6 +304,8 @@
     <Content Include="js\moment.min.js" />
     <Content Include="js\owl.carousel.min.js" />
     <Content Include="js\respond.min.js" />
+    <Content Include="js\sweet-alert\sweetalert.css" />
+    <Content Include="js\sweet-alert\sweetalert.min.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.js" />
     <Content Include="Scripts\ai.0.22.9-build00167.min.js" />
     <Content Include="Scripts\bootstrap.js" />
@@ -315,11 +320,10 @@
     <Content Include="Datos\RentEDM.edmx.diagram">
       <DependentUpon>RentEDM.edmx</DependentUpon>
     </Content>
-    <Content Include="css\.DS_Store" />
     <Content Include="js\.DS_Store" />
-    <Content Include="fonts\themify.eot" />
-    <Content Include="fonts\themify.ttf" />
-    <Content Include="fonts\themify.woff" />
+    <Content Include="fonts\themify-icons\themify.eot" />
+    <Content Include="fonts\themify-icons\themify.ttf" />
+    <Content Include="fonts\themify-icons\themify.woff" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -368,14 +372,16 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\IndexLogin.cshtml" />
     <Content Include="Views\Shared\_CartaVehiculo.cshtml" />
+    <Content Include="Views\Home\Buscar.cshtml" />
+    <Content Include="Views\Home\_Buscador.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
+    <Folder Include="Views\Vehiculo\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="packages.config" />
     <None Include="Project_Readme.html" />
-    <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />

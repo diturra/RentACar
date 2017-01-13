@@ -16,7 +16,7 @@
     <!-- Animate.css -->
     <link href="~/css/animate.css" rel="stylesheet" />
     <!-- Icomoon Icon Fonts-->
-    <link rel="stylesheet" href="~/css/icomoon.css">
+
     <!-- Themify Icons-->
     <link rel="stylesheet" href="~/css/themify-icons.css">
     <!-- Bootstrap  -->
@@ -25,9 +25,10 @@
     <link rel="stylesheet" href="~/css/magnific-popup.css">
     <!-- Bootstrap DateTimePicker -->
     <link rel="stylesheet" href="~/css/bootstrap-datetimepicker.min.css">
-    <!-- Owl Carousel  -->
-    @*<link rel="stylesheet" href="~/css/owl.carousel.min.css">
-    <link rel="stylesheet" href="~/css/owl.theme.default.min.css">*@
+
+    <link href="~/js/sweet-alert/sweetalert.css" rel="stylesheet" />
+
+
     <!-- Theme style  -->
     <link rel="stylesheet" href="~/css/style.css">
     <!-- Modernizr JS -->
@@ -69,10 +70,6 @@
 
             </div>
         </nav>
-        @if (!algo.Equals("a"))
-        {
-            <div style="padding-top:100px"></div>
-        }
         
         @RenderBody()
         <!-- </div> -->
@@ -101,9 +98,11 @@
 
     <script src="~/js/moment.min.js"></script>
     <script src="~/js/bootstrap-datetimepicker.min.js"></script>
-    <script src="~/js/main.js"></script>
+    <!-- alert -->
+    <script src="~/js/sweet-alert/sweetalert.min.js"></script>
     <!-- Main -->
-  
+    <script src="~/js/main.js"></script>
+
     @RenderSection("scripts", required: false)
 
 </body>
