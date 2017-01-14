@@ -1726,11 +1726,20 @@ form label {
   -o-transition: 0.3s;
   transition: 0.3s;
 }
-.fh5co-card-item figure {
+/*.fh5co-card-item figure {
   height: 240px;
   overflow: hidden;
   z-index: 12;
   position: relative;
+}*/
+
+@media screen and (max-width: 480px) {
+.fh5co-card-item figure {
+  /*height: 240px;*/
+  overflow: hidden;
+  z-index: 12;
+  position: relative;
+}
 }
 .fh5co-card-item figure .overlay {
   opacity: 0;
@@ -1774,7 +1783,7 @@ form label {
 }
 .fh5co-card-item .fh5co-text:before {
   position: absolute;
-  top: -40px;
+ /*top: -40px;*/
   right: 0;
   left: 0;
   width: 103%;
