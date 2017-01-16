@@ -31,6 +31,7 @@ namespace RentaCar.Datos
         public int valor { get; set; }
         public string url_foto { get; set; }
         public bool disponible { get; set; }
+        public int puertas { get; set; }
     
         public virtual Categoria Categoria { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]

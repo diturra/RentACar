@@ -1,5 +1,56 @@
 ﻿<div class="col-md-3">
-    <input type="text" />
-    <input type="text" />
-    <input type="text" />
+    <form action="@Url.Action("Refinar","Home")" method="post" role="form" enctype="multipart/form-data">
+        <div class="panel panel-warning">
+            <!-- Default panel contents -->
+            <div class="panel-heading">Busqueda avanzada</div>
+            <div class="panel-body">
+
+            </div>
+
+            <!-- Table -->
+            <table class="table">
+                <tr>
+                    <td>Transmision</td>
+                    <td>
+                        <select class="form-control dropdown" name="Transmision">
+                            <option value="">Seleccionar...</option>
+                            <option value="M">Manual</option>
+                            <option value="A">Automatico</option>
+                        </select>
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Cantidad pasajeros
+                    </td>
+                    <td>
+                        <input type="number" min="0" max="10" maxlength="2" name="Pasajeros" class="form-control" />
+                    </td>
+                </tr>
+                <tr>
+                    <td>
+                        Aire acondicionado
+                    </td>
+                    <td>
+                        <input type="checkbox" name="AC" value="true" style="margin: 10px 50px 10px;" />
+                    </td>
+                </tr>
+            </table>
+            <div class="text-center">
+                <input type="submit" value="Filtrar" class="btn btn-primary" />
+            </div>
+        </div>
+    </form>
 </div>
+<style>
+    .form-control {
+    box-shadow: none;
+    /* background: rgba(76, 72, 72, 0); */
+    border: 2px solid rgba(0, 0, 0, 0.1);
+    /* height: 46px; */
+    font-size: 14px;
+    /* font-weight: 300; */
+    padding-left: 15px;
+    padding-right: 15px;
+}
+</style>

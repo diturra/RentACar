@@ -34,6 +34,7 @@ namespace RentaCar.Controllers
 
             return View();
         }
+        [HttpGet]
         public ActionResult Buscar(BuscadorPrincipal model)
         {
             RentaCarEntities db = new RentaCarEntities();
@@ -43,8 +44,25 @@ namespace RentaCar.Controllers
                 Session["fechas"] = model;
                 //var vehiculosdisponible = db.Vehiculo.Where(x => x.disponible);
             }
-           var lista = db.Vehiculo.ToList();
+            var lista = db.Vehiculo.ToList();
             ViewBag.Message = "Your contact page.";
+
+            return View(lista);
+        }
+        [HttpPost]
+        public ActionResult Refinar(BuscadorPrincipal model)
+        {
+            RentaCarEntities db = new RentaCarEntities();
+            if (Session["fechas"] == null)
+            {
+                Session.Add("fechas", model);
+            }
+            else
+            {
+                BuscadorPrincipal sesion = (BuscadorPrincipal)Session["fechas"];
+            }
+            var lista = db.Vehiculo.ToList();
+            
 
             return View(lista);
         }

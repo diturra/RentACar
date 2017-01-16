@@ -11,5 +11,9 @@ namespace RentaCar.Models
         public string Timedesde { get; set; }
         public string Fechahasta { get; set; }
         public string Timehasta { get; set; }
+
+        public string Transmision { get; set; }
+        public bool AC { get; set; }
+        public int Pasajeros { get; set; }
     }
 }

@@ -1,13 +1,19 @@
-﻿@using Microsoft.AspNet.Identity
+﻿
+@using Microsoft.AspNet.Identity
+@using RentaCar.Datos
+@{ 
+    var a = User.Identity.GetUserId();
+    AspNetUsers user = new RentaCarEntities().AspNetUsers.FirstOrDefault(x => x.Id.Equals(a));
+}
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right menu-1" }))
     {
     @Html.AntiForgeryToken()
 
-    
         <li>
-            @Html.ActionLink("Nro° " + User.Identity.GetUserName(), "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage",style= "color: #FBB448;" })
+            <span class='glyphicon glyphicon-user'></span>
+            @Html.ActionLink("  " + user.Nombre , "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage",style= "color: #FBB448;" })
         </li>
         <li><a href="javascript:document.getElementById('logoutForm').submit()">Cerrar sesión</a></li>
    

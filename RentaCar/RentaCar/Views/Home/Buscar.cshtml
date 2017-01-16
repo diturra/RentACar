@@ -19,12 +19,22 @@
                         <br />
                         <div class="fh5co-text">
                             <h2>@item.modelo</h2>
-                            <p>Far far away, behind the word mountains, far from the countries Vokalia..</p>
-
+                            <table class="table">
+                                <tr>
+                                    @if (item.aire_acondicionado)
+                                    {
+                                    <td><i class="fa fa-snowflake-o" style="color:blue;" aria-hidden="true"></i> A/C</td>
+                                    }
+                                    <td><i class="fa fa-user" style="color:green;" aria-hidden="true"></i> @item.capacidad</td>
+                                    <td><i class="fa fa-microchip" aria-hidden="true"></i> @item.transmision</td>
+                                    <td><i class="fa fa-asterisk" aria-hidden="true"></i> @item.puertas Puertas</td>
+                                </tr>
+                            </table>
+                          
                             <p><span>Valor Diario:</span></p>
                             <p><span class="price cursive-font">@string.Format("{0} {1:N0}","$",item.valor)</span>
                                 <div style="padding: 10px;">
-                                    <input type="button" class=" btn btn-primary" value="Hola" />
+                                    <input type="button" class="btn btn-primary" value="Arrendar" />
                                 </div>
                             </p>
                         </div>

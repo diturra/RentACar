@@ -260,6 +260,7 @@
     <Content Include="css\bootstrap-datetimepicker.min.css" />
     <Content Include="css\bootstrap.css" />
     <Content Include="css\flexslider.css" />
+    <Content Include="css\font-awesome.css" />
     <Content Include="css\icomoon.css" />
     <Content Include="css\magnific-popup.css" />
     <Content Include="css\owl.carousel.min.css" />
@@ -277,10 +278,11 @@
       <LastGenOutput>RentEDM.cs</LastGenOutput>
     </Content>
     <Content Include="favicon.ico" />
-    <Content Include="fonts\glyphicons-halflings-regular.eot" />
-    <Content Include="fonts\glyphicons-halflings-regular.svg" />
-    <Content Include="fonts\glyphicons-halflings-regular.ttf" />
-    <Content Include="fonts\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\bootstrap\glyphicons-halflings-regular.eot" />
+    <Content Include="fonts\bootstrap\glyphicons-halflings-regular.svg" />
+    <Content Include="fonts\bootstrap\glyphicons-halflings-regular.ttf" />
+    <Content Include="fonts\bootstrap\glyphicons-halflings-regular.woff" />
+    <Content Include="fonts\fontawesome-webfont.svg" />
     <Content Include="fonts\themify-icons\themify.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
@@ -324,6 +326,11 @@
     <Content Include="fonts\themify-icons\themify.eot" />
     <Content Include="fonts\themify-icons\themify.ttf" />
     <Content Include="fonts\themify-icons\themify.woff" />
+    <Content Include="fonts\fontawesome-webfont.eot" />
+    <Content Include="fonts\fontawesome-webfont.ttf" />
+    <Content Include="fonts\fontawesome-webfont.woff" />
+    <Content Include="fonts\fontawesome-webfont.woff2" />
+    <Content Include="fonts\FontAwesome.otf" />
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
@@ -374,6 +381,7 @@
     <Content Include="Views\Shared\_CartaVehiculo.cshtml" />
     <Content Include="Views\Home\Buscar.cshtml" />
     <Content Include="Views\Home\_Buscador.cshtml" />
+    <Content Include="Views\Home\_AutosBuscar.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
