@@ -30,12 +30,12 @@
                                                     <input type="text" data-format="DD-MM-YYYY" name="Fechadesde" id="datedesde" class="form-control">
                                                 </div>
                                             </div>
-                                            @*<div class="row form-group">
+                                            <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <label for="date-start">Hora de salida</label>
                                                     <input type="text" id="timedesde" name="Timedesde" class="form-control">
                                                 </div>
-                                            </div>*@
+                                            </div>
                                             <hr />
                                             <div class="row form-group">
                                                 <div class="col-md-12">
@@ -43,12 +43,12 @@
                                                     <input type="text" name="Fechahasta" id="datehasta" class="form-control">
                                                 </div>
                                             </div>
-                                            @*<div class="row form-group">
+                                            <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <label for="date-start">Hora de retorno</label>
                                                     <input type="text" id="timehasta" name="Timehasta" class="form-control">
                                                 </div>
-                                            </div>*@
+                                            </div>
                                             <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <input type="button" onclick="ValidarFechas()" class="btn btn-primary btn-block" value="Buscar">
@@ -168,6 +168,13 @@
 <script>
 
     function ValidarFechas() {
+
+        if ($('#datedesde').val() == "" || $('#timedesde').val() == "" || $('#datedesde').val() == "" || $('#timedesde').val() == "")
+        {
+            swal("Porfavor, llenar todos los campos del formulario!");
+            return false;
+        }
+
         if ($('#datedesde').val() != "" && $('#datehasta').val() !="") {
             var desde = $('#datedesde').val().split("-");
             var hasta = $('#datehasta').val().split("-");

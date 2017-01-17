@@ -1,5 +1,6 @@
 ﻿using RentaCar.Datos;
 using RentaCar.Models;
+using RentaCar.Models.Enum;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -38,16 +39,64 @@ namespace RentaCar.Controllers
         public ActionResult Buscar(BuscadorPrincipal model)
         {
             RentaCarEntities db = new RentaCarEntities();
+            DateTime desde = Convert.ToDateTime(model.Fechadesde);
+            DateTime hasta = Convert.ToDateTime(model.Fechahasta);
 
-            if (!string.IsNullOrEmpty(model.Fechadesde) || !string.IsNullOrEmpty(model.Fechahasta))
+            if (ModelState.IsValid)
             {
                 Session["fechas"] = model;
-                //var vehiculosdisponible = db.Vehiculo.Where(x => x.disponible);
-            }
-            var lista = db.Vehiculo.ToList();
-            ViewBag.Message = "Your contact page.";
 
-            return View(lista);
+
+               var ordenes = db.Orden.Where(x => x.estado != (int)EstadoOrden.Cancelado).ToList();   //traigo toda las orden que no esten cancelada
+
+                if (ordenes.Count() == 0) //si es 0 que no avance para que no caiga el programa
+                    return View(db.Vehiculo.ToList());
+
+
+                List<FiltroFechas> filtroFechas = new List<FiltroFechas>();
+
+                List<Vehiculo> listavehiculo = new List<Vehiculo>();
+               
+                foreach (var item in ordenes)
+                {
+                    FiltroFechas fil = new FiltroFechas();
+                    fil.Vehiculo = item.Vehiculo;
+
+                    for (DateTime date = item.desde; date < item.hasta; date = date.AddDays(1))
+                    {
+                         fil.FechasCocinadas.Add(date); //todas las fechas que no pueden coincidir
+                    }
+                    filtroFechas.Add(fil);
+                }
+               
+                foreach(FiltroFechas item in filtroFechas)
+                {
+                    int cont = 0;
+                    foreach (var fecha in item.FechasCocinadas)
+                    {
+                        for (DateTime date = desde; date < hasta; date = date.AddDays(1)) //colo la lista
+                        {
+                            if (date == fecha)
+                            {
+                                cont++;
+                            }
+                        }
+                    }
+
+                    if (cont == 0)
+                    {
+                        listavehiculo.Add(item.Vehiculo);
+                    }
+                }
+               
+
+                var lista = db.Vehiculo.ToList();
+                ViewBag.Message = "Your contact page.";
+
+                return View(listavehiculo.ToList());
+            }
+
+            return new HttpNotFoundResult();
         }
         [HttpPost]
         public ActionResult Refinar(BuscadorPrincipal model)
@@ -57,10 +106,7 @@ namespace RentaCar.Controllers
             {
                 Session.Add("fechas", model);
             }
-            else
-            {
-                BuscadorPrincipal sesion = (BuscadorPrincipal)Session["fechas"];
-            }
+          
             var lista = db.Vehiculo.ToList();
             
 

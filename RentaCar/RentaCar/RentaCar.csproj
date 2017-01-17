@@ -198,6 +198,7 @@
     <Compile Include="App_Start\RouteConfig.cs" />
     <Compile Include="App_Start\Startup.Auth.cs" />
     <Compile Include="Controllers\AccountController.cs" />
+    <Compile Include="Controllers\CompraController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\VehiculoController.cs" />
@@ -247,6 +248,8 @@
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\BuscadorPrincipal.cs" />
+    <Compile Include="Models\Enum\EstadoOrden.cs" />
+    <Compile Include="Models\FiltroFechas.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -303,6 +306,7 @@
     <Content Include="js\magnific-popup-options.js" />
     <Content Include="js\main.js" />
     <Content Include="js\modernizr-2.6.2.min.js" />
+    <Content Include="js\moment-whit-locales.js" />
     <Content Include="js\moment.min.js" />
     <Content Include="js\owl.carousel.min.js" />
     <Content Include="js\respond.min.js" />
@@ -322,7 +326,6 @@
     <Content Include="Datos\RentEDM.edmx.diagram">
       <DependentUpon>RentEDM.edmx</DependentUpon>
     </Content>
-    <Content Include="js\.DS_Store" />
     <Content Include="fonts\themify-icons\themify.eot" />
     <Content Include="fonts\themify-icons\themify.ttf" />
     <Content Include="fonts\themify-icons\themify.woff" />
@@ -342,7 +345,6 @@
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />
-    <Content Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -382,6 +384,7 @@
     <Content Include="Views\Home\Buscar.cshtml" />
     <Content Include="Views\Home\_Buscador.cshtml" />
     <Content Include="Views\Home\_AutosBuscar.cshtml" />
+    <Content Include="Views\Compra\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

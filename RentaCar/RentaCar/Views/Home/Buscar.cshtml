@@ -34,7 +34,7 @@
                             <p><span>Valor Diario:</span></p>
                             <p><span class="price cursive-font">@string.Format("{0} {1:N0}","$",item.valor)</span>
                                 <div style="padding: 10px;">
-                                    <input type="button" class="btn btn-primary" value="Arrendar" />
+                                    <input type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index","Compra", new { id = item.id })'" value="Arrendar" />
                                 </div>
                             </p>
                         </div>

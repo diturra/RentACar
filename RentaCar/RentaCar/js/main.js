@@ -294,23 +294,25 @@
 
 
 	var dateTimeForm = function() {
-		
- 
-		
+			
 	    $('#datedesde').datetimepicker({
-	        format: 'DD-MM-YYYY'
+	        format: 'DD-MM-YYYY',
+	        //locale: 'ru'
 	    });
 
 	    $('#timedesde').datetimepicker({
-	        format: 'LT'
+	        format: 'LT',
+	        stepping: 30
 	    });
 
 	    $('#datehasta').datetimepicker({
-	        format: 'DD-MM-YYYY'
+	        format: 'DD-MM-YYYY',
+            //locale : 'es'
 	    });
 
 	    $('#timehasta').datetimepicker({
-	        format: 'LT'
+	        format: 'LT',
+	        stepping: 30
 	    });
 		
 	};

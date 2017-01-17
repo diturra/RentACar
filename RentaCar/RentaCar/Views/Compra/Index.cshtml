@@ -1,0 +1,61 @@
+﻿@model RentaCar.Datos.Vehiculo
+    @using RentaCar.Models
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    if(Session["fechas"] == null)
+    {
+        Response.Redirect("Home");
+    }
+
+    var llenar = (BuscadorPrincipal)Session["fechas"];
+}
+
+
+
+    <div class="gtco-container">
+        <div class="row">
+            <div class="col-md-4">
+                <img src="@Model.url_foto" class="img-responsive" />
+            </div>
+            <div class="col-md-8 text-center">
+                    <div class="col-md-12 mt-text animate-box" data-animate-effect="fadeInUp">
+
+                        <span class="intro-text-small">Indicar fecha y hora en<a href="#">Loyca</a></span>
+                        <div class="barra">
+                            <div class="row form-group">
+                                <div class="col-md-3">
+                                    <label for="date-start" class="text-uppercase">Desde </label>
+                                    <input type="text" class="form-control" value="@llenar.Fechadesde" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="date-start" class="text-uppercase">Hora </label>
+                                    <input type="text" class="form-control" value="@llenar.Timedesde" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="date-start" class="text-uppercase">Hasta </label>
+                                    <input type="text"class="form-control" value="@llenar.Fechahasta" readonly>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="date-start" class="text-uppercase">Hora </label>
+                                    <input type="text" class="form-control" value="@llenar.Timehasta" readonly>
+                                </div>
+                            </div>
+                          
+                        </div>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+
+
+<style>
+    .barra {
+    padding: 20px 30px;
+    border-top: 10px solid #FBB448;
+    border-bottom: 10px solid #FBB448;
+    text-align: left;
+}
+</style>
+
