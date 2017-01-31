@@ -15,5 +15,9 @@ namespace RentaCar.Models
         public string Transmision { get; set; }
         public bool AC { get; set; }
         public int Pasajeros { get; set; }
+
+        public int Dias { get; set; }
+
+        public int TotalPorDias { get; set; }
     }
 }

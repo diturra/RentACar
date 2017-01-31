@@ -65,18 +65,39 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="DetalleSeguro">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_seguro" Type="int" Nullable="false" />
+          <Property Name="id_orden" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="Orden">
           <Key>
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
-          <Property Name="desde" Type="datetime" Nullable="false" />
-          <Property Name="hasta" Type="datetime" Nullable="false" />
-          <Property Name="dias_totales" Type="int" />
+          <Property Name="desde" Type="date" Nullable="false" />
+          <Property Name="hasta" Type="date" Nullable="false" />
+          <Property Name="tiempo_desde" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="tiempo_hasta" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="dias_totales" Type="int" Nullable="false" />
           <Property Name="vehiculoID" Type="int" Nullable="false" />
           <Property Name="estado" Type="int" Nullable="false" />
           <Property Name="total" Type="int" Nullable="false" />
           <Property Name="userID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="ciudad" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="comuna" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="direccion" Type="nvarchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Seguro">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="valor" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Vehiculo">
           <Key>
@@ -151,6 +172,30 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_DetalleSeguro_Orden">
+          <End Role="Orden" Type="Self.Orden" Multiplicity="1" />
+          <End Role="DetalleSeguro" Type="Self.DetalleSeguro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orden">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DetalleSeguro">
+              <PropertyRef Name="id_orden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetalleSeguro_Seguro">
+          <End Role="Seguro" Type="Self.Seguro" Multiplicity="1" />
+          <End Role="DetalleSeguro" Type="Self.DetalleSeguro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seguro">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DetalleSeguro">
+              <PropertyRef Name="id_seguro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Orden_AspNetUsers">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
           <End Role="Orden" Type="Self.Orden" Multiplicity="*" />
@@ -194,7 +239,9 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="DetalleSeguro" EntityType="Self.DetalleSeguro" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orden" EntityType="Self.Orden" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Seguro" EntityType="Self.Seguro" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehiculo" EntityType="Self.Vehiculo" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -211,6 +258,14 @@
           <AssociationSet Name="FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserRoles_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserRoles" EntitySet="AspNetUserRoles" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleSeguro_Orden" Association="Self.FK_DetalleSeguro_Orden">
+            <End Role="Orden" EntitySet="Orden" />
+            <End Role="DetalleSeguro" EntitySet="DetalleSeguro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleSeguro_Seguro" Association="Self.FK_DetalleSeguro_Seguro">
+            <End Role="Seguro" EntitySet="Seguro" />
+            <End Role="DetalleSeguro" EntitySet="DetalleSeguro" />
           </AssociationSet>
           <AssociationSet Name="FK_Orden_AspNetUsers" Association="Self.FK_Orden_AspNetUsers">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -242,15 +297,21 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="desde" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="hasta" Type="DateTime" Nullable="false" Precision="3" />
-          <Property Name="dias_totales" Type="Int32" />
+          <Property Name="desde" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="hasta" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="dias_totales" Type="Int32" Nullable="false" />
           <Property Name="vehiculoID" Type="Int32" Nullable="false" />
           <Property Name="estado" Type="Int32" Nullable="false" />
           <Property Name="total" Type="Int32" Nullable="false" />
           <Property Name="userID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="Vehiculo" Relationship="Self.FK_Orden_Vehiculo" FromRole="Orden" ToRole="Vehiculo" />
           <NavigationProperty Name="AspNetUsers" Relationship="RentaCarModel.FK_Orden_AspNetUsers" FromRole="Orden" ToRole="AspNetUsers" />
+          <Property Name="tiempo_desde" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="tiempo_hasta" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DetalleSeguro" Relationship="RentaCarModel.FK_DetalleSeguro_Orden" FromRole="Orden" ToRole="DetalleSeguro" />
+          <Property Name="ciudad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="comuna" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="direccion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
         </EntityType>
         <EntityType Name="Vehiculo">
           <Key>
@@ -326,6 +387,16 @@
           <AssociationSet Name="AspNetUserRoles" Association="RentaCarModel.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+          </AssociationSet>
+          <EntitySet Name="DetalleSeguro" EntityType="RentaCarModel.DetalleSeguro" />
+          <EntitySet Name="Seguro" EntityType="RentaCarModel.Seguro" />
+          <AssociationSet Name="FK_DetalleSeguro_Orden" Association="RentaCarModel.FK_DetalleSeguro_Orden">
+            <End Role="Orden" EntitySet="Orden" />
+            <End Role="DetalleSeguro" EntitySet="DetalleSeguro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleSeguro_Seguro" Association="RentaCarModel.FK_DetalleSeguro_Seguro">
+            <End Role="Seguro" EntitySet="Seguro" />
+            <End Role="DetalleSeguro" EntitySet="DetalleSeguro" />
           </AssociationSet>
         </EntityContainer>
         <EntityType Name="AspNetRoles">
@@ -424,6 +495,49 @@
           <End Type="RentaCarModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
           <End Type="RentaCarModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
         </Association>
+        <EntityType Name="DetalleSeguro">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_seguro" Type="Int32" Nullable="false" />
+          <Property Name="id_orden" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Orden" Relationship="RentaCarModel.FK_DetalleSeguro_Orden" FromRole="DetalleSeguro" ToRole="Orden" />
+          <NavigationProperty Name="Seguro" Relationship="RentaCarModel.FK_DetalleSeguro_Seguro" FromRole="DetalleSeguro" ToRole="Seguro" />
+        </EntityType>
+        <EntityType Name="Seguro">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
+          <Property Name="valor" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DetalleSeguro" Relationship="RentaCarModel.FK_DetalleSeguro_Seguro" FromRole="Seguro" ToRole="DetalleSeguro" />
+        </EntityType>
+        <Association Name="FK_DetalleSeguro_Orden">
+          <End Type="RentaCarModel.Orden" Role="Orden" Multiplicity="1" />
+          <End Type="RentaCarModel.DetalleSeguro" Role="DetalleSeguro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orden">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DetalleSeguro">
+              <PropertyRef Name="id_orden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetalleSeguro_Seguro">
+          <End Type="RentaCarModel.Seguro" Role="Seguro" Multiplicity="1" />
+          <End Type="RentaCarModel.DetalleSeguro" Role="DetalleSeguro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seguro">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DetalleSeguro">
+              <PropertyRef Name="id_seguro" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -441,6 +555,11 @@
           <EntitySetMapping Name="Orden">
             <EntityTypeMapping TypeName="RentaCarModel.Orden">
               <MappingFragment StoreEntitySet="Orden">
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
+                <ScalarProperty Name="comuna" ColumnName="comuna" />
+                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
+                <ScalarProperty Name="tiempo_hasta" ColumnName="tiempo_hasta" />
+                <ScalarProperty Name="tiempo_desde" ColumnName="tiempo_desde" />
                 <ScalarProperty Name="id" ColumnName="id" />
                 <ScalarProperty Name="desde" ColumnName="desde" />
                 <ScalarProperty Name="hasta" ColumnName="hasta" />
@@ -525,6 +644,24 @@
               <ScalarProperty Name="Id" ColumnName="RoleId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="DetalleSeguro">
+            <EntityTypeMapping TypeName="RentaCarModel.DetalleSeguro">
+              <MappingFragment StoreEntitySet="DetalleSeguro">
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
+                <ScalarProperty Name="id_seguro" ColumnName="id_seguro" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Seguro">
+            <EntityTypeMapping TypeName="RentaCarModel.Seguro">
+              <MappingFragment StoreEntitySet="Seguro">
+                <ScalarProperty Name="valor" ColumnName="valor" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="id" ColumnName="id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

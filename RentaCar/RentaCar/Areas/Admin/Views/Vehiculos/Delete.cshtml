@@ -1,0 +1,113 @@
+﻿@model RentaCar.Datos.Vehiculo
+
+@{
+    ViewBag.Title = "Delete";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Delete</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>Vehiculo</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.modelo)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.modelo)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.capacidad)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.capacidad)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.transmision)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.transmision)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.aire_acondicionado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.aire_acondicionado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.cierre_centralizado)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.cierre_centralizado)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.abono)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.abono)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.valor)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.valor)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.url_foto)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.url_foto)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.disponible)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.disponible)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.puertas)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.puertas)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Categoria.nombre)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Categoria.nombre)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+    }
+</div>

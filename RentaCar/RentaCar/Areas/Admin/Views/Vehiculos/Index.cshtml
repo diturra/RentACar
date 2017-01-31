@@ -1,0 +1,126 @@
+﻿@model IEnumerable<RentaCar.Datos.Vehiculo>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+<div class="wraper container-fluid">
+    <div class="panel panel-default">
+        <!-- Default panel contents -->
+        <div class="panel-heading">Administracion de Vehiculos</div>
+        <div class="panel-body" style="padding:30px;">
+           <button onclick="location.href='@Url.Action("Create")'" class="btn" style="background-color:#fcbe61;">Agregar Vehiculo</button>
+                         
+        </div>
+        <table class="table table-bordered table-condensed">
+            <tr>
+                <th>
+                    Foto.
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.modelo)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.capacidad)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.transmision)
+                </th>
+                <th>
+                    A/C
+                </th>
+                <th>
+                    Centralizado
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.abono)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.valor)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.disponible)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.puertas)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Categoria.nombre)
+                </th>
+                <th></th>
+                <th></th>
+            </tr>
+
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>
+                        <img src="@Html.DisplayFor(modelItem => item.url_foto)" class="img-responsive" style="width: 60px;" />
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.modelo)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.capacidad)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.transmision)
+                    </td>
+                    <td style="text-align: center;">
+                         @if (item.aire_acondicionado)
+                         {
+                            <span class="glyphicon glyphicon-ok lg"  style="color:green;" aria-hidden="true"></span>
+                         }
+                         else
+
+                         {
+                            <span class="glyphicon glyphicon-remove"  style="color:red;" aria-hidden="true"></span>
+                         }
+                    </td>
+                    <td style="text-align: center;">
+                        @if (item.cierre_centralizado)
+                        {
+                            <span class="glyphicon glyphicon-ok" style="color:green;" aria-hidden="true"></span>
+                        }
+                        else
+
+                        {
+                            <span class="glyphicon glyphicon-remove" style="color:red;" aria-hidden="true"></span>
+                        }
+                    </td>
+
+                    <td>
+                        @string.Format("{0:N0}",item.abono)
+                    </td>
+                    <td>
+                       @string.Format("{0:N0}", item.valor)
+                    </td>
+                    <td style="text-align: center;">
+                        @if (item.disponible)
+                        {
+                            <span class="glyphicon glyphicon-ok" style="color:green; font-size:25px;" aria-hidden="true"></span>
+                        }
+                        else
+
+                        {
+                            <span class="glyphicon glyphicon-remove" style="color:red; font-size:25px;" aria-hidden="true"></span>
+                        }
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.puertas)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Categoria.nombre)
+                    </td>
+                    <td>
+                        <button type="button" onclick="location.href='@Url.Action("Edit", "Vehiculos", new { id = item.id })'" class="btn btn-warning"><i class="fa fa-edit"></i></button>
+                    </td>
+                    <td>
+                        <button type="button" onclick="location.href='@Url.Action("Delete", "Vehiculos", new { id = item.id })'" class="btn btn-danger"><i class="fa fa-trash"></i></button>
+                    </td>
+                </tr>
+            }
+
+        </table>
+    </div>
+    </div>

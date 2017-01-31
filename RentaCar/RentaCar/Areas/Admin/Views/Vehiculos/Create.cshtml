@@ -1,0 +1,169 @@
+﻿@model RentaCar.Areas.Admin.Models.VehiculoModelo
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+@section Styles {
+    <link href="~/Content/bootstrap-fileinput/css/fileinput.min.css" rel="stylesheet" />
+}
+
+
+<div class="wraper container-fluid" style="background-color:white;">
+    <h2>Agrega un vehiculo</h2>
+
+    @using (Html.BeginForm("Create", "Vehiculos", FormMethod.Post, new { enctype = "multipart/form-data", role="form" }))
+    {
+        @*@Html.AntiForgeryToken()*@
+
+        <div class="form-horizontal col-md-6">
+
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            <div class="form-group">
+                @Html.LabelFor(model => model.categoriaID, "categoriaID", htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownList("categoriaID", null, htmlAttributes: new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.categoriaID, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.modelo, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.modelo, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.modelo, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.capacidad, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.capacidad, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.capacidad, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.puertas, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.puertas, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.puertas, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.transmision, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.transmision, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.transmision, "", new { @class = "text-danger" })
+                </div>
+            </div>
+        </div>
+
+        //Division de columnas
+
+        <div class="form-horizontal col-md-6">
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.abono, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.abono, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.abono, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.valor, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.valor, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.valor, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label class="control-label col-md-2">
+                    Foto.
+                </label>
+                <div class="col-md-10">
+                    <input type="file" id="files" name="files" class="file-loading" required>
+                </div>
+            </div>
+          </div>
+
+        <div class="row">
+            <div class="form-group">
+                @Html.LabelFor(model => model.disponible, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-1">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.disponible)
+                        @Html.ValidationMessageFor(model => model.disponible, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                @Html.LabelFor(model => model.aire_acondicionado, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-1">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.aire_acondicionado)
+                        @Html.ValidationMessageFor(model => model.aire_acondicionado, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.cierre_centralizado, htmlAttributes: new { @class = "control-label col-md-3" })
+                <div class="col-md-1">
+                    <div class="checkbox">
+                        @Html.EditorFor(model => model.cierre_centralizado)
+                        @Html.ValidationMessageFor(model => model.cierre_centralizado, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+            </div>
+        </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    <input type="submit" value="Agregar" class="btn btn-primary" />
+                </div>
+            </div>
+
+
+            }
+            <div>
+                @Html.ActionLink("Back to List", "Index")
+            </div>
+
+        </div>
+@section Scripts{
+<script src="~/js/admin/fileinput.min.js"></script>
+<script src="~/js/admin/fileinput_locale_es.js"></script>
+<script>
+        @{
+            var preview = new System.Text.StringBuilder();
+            var previewDelete = new System.Text.StringBuilder();
+	        
+        }
+
+          var $input = $("#files");
+
+        $input.fileinput({
+            uploadAsync: false,
+            showCaption: false,
+            showRemove: false,
+            showUpload: false,
+            maxFileCount: 1,
+            overwriteInitial: false,
+            initialPreview: [
+                    @Html.Raw(preview.ToString())
+            ],
+            initialPreviewConfig: [
+                @Html.Raw(previewDelete.ToString())
+            ],
+            maxFileSize: 10000,
+            browseClass: "btn btn-primary",
+            allowedFileTypes: ["image"],
+            language: 'es'
+        });
+    </script>
+    }
+    

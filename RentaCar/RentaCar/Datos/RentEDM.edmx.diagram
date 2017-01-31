@@ -18,6 +18,10 @@
         <AssociationConnector Association="RentaCarModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" />
         <AssociationConnector Association="RentaCarModel.FK_Orden_AspNetUsers" />
         <AssociationConnector Association="RentaCarModel.AspNetUserRoles" />
+        <EntityTypeShape EntityType="RentaCarModel.DetalleSeguro" Width="1.5" PointX="7.5" PointY="2" />
+        <EntityTypeShape EntityType="RentaCarModel.Seguro" Width="1.5" PointX="5.25" PointY="12.125" />
+        <AssociationConnector Association="RentaCarModel.FK_DetalleSeguro_Orden" />
+        <AssociationConnector Association="RentaCarModel.FK_DetalleSeguro_Seguro" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

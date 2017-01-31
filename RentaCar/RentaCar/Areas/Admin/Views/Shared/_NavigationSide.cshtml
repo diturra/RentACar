@@ -1,0 +1,128 @@
+﻿<!-- Navbar Start -->
+@helper DisplayAttribute(string menu)
+{
+    var attribute = ViewContext.RouteData.Values["action"].ToString().ToLowerInvariant() == menu ? "active" : null;
+
+    @attribute
+}
+
+@helper DisplayGroupAttribute(string menu)
+{
+var groupDashboard = new string[] {
+			"dashboard",
+			"index"
+		};
+
+var groupSettings = new string[] {
+			"settings",
+			"settingsemail",
+			"emailtemplates",
+			"settingslanguage",
+		};
+
+var groupUsers = new string[] {
+			"users"
+		};
+
+var groupListings = new string[] {
+			"listings",
+			"listingupdate",
+			"listingtypes",
+			"categories",
+			"categoryupdate",
+			"customfields",
+			"customfieldupdate"
+		};
+
+var groupDesign = new string[] {
+			"appearance",
+			"codestyle",
+			"codescript"
+		};
+
+var groupPages = new string[] {
+			"contentpages",
+			"contentpageupdate"
+		};
+
+var groupPayments = new string[] {
+			"paymentsetting",
+			"order",
+			"transaction",
+			"pendingpayment"
+		};
+
+var groupPlugins = new string[] {
+			"plugins"
+		};
+
+var groupDictionary = new Dictionary<string, string[]>();
+groupDictionary.Add("dashboard", groupDashboard);
+groupDictionary.Add("settings", groupSettings);
+groupDictionary.Add("users", groupUsers);
+groupDictionary.Add("listings", groupListings);
+groupDictionary.Add("design", groupDesign);
+groupDictionary.Add("contentpages", groupPages);
+groupDictionary.Add("payments", groupPayments);
+groupDictionary.Add("plugins", groupPlugins);
+
+var attribute = groupDictionary[menu].Contains(ViewContext.RouteData.Values["action"].ToString().ToLowerInvariant()) ? "active" : null;
+
+    @attribute
+}
+
+<nav class="navigation">
+    <ul class="list-unstyled">
+        <li class="has-submenu @DisplayGroupAttribute("dashboard")">
+            <a href="@Url.Action("Index", "Home")"><i class="fa fa-home"></i> <span class="nav-label">Pagina principal</span></a>
+        </li>
+
+        <li class="has-submenu @DisplayGroupAttribute("listings")">
+            <a href="#"><i class="fa fa-car"></i> <span class="nav-label">Vehiculos</span></a>
+            <ul class="list-unstyled">
+                <li class="@DisplayAttribute("Index")"><a href="@Url.Action("Index", "Vehiculos")">Administrar Vehiculos</a></li>
+
+                <li class="@DisplayAttribute("")"><a href="@Url.Action("Index", "Seguros")">Administrar Seguros</a></li>
+            </ul>
+        </li>
+
+
+        <li class="has-submenu @DisplayGroupAttribute("settings")">
+            <a href="#"><i class="fa fa-gears"></i> <span class="nav-label">Configuracion Pagina</span></a>
+            <ul class="list-unstyled">
+                <li class="@DisplayAttribute("settings")">
+                    <a href="@Url.Action("Settings", "Manage")">General</a>
+                </li>
+                <li class="@DisplayAttribute("settingsemail")">
+                    <a href="@Url.Action("SettingsEmail", "Manage")">Email</a>
+                </li>
+                <li class="@DisplayAttribute("emailtemplates")">
+                    <a href="@Url.Action("EmailTemplates", "Manage")">Email Template</a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="has-submenu @DisplayGroupAttribute("payments")">
+            <a href="#"><i class="fa fa-dollar"></i> <span class="nav-label">Transacciones</span></a>
+            <ul class="list-unstyled">
+                <li class="@DisplayAttribute("order")">
+                    <a href="@Url.Action("Order", "Payment")">Reservadas</a>
+                </li>
+				<li class="@DisplayAttribute("pendingpayment")">
+					<a href="@Url.Action("PendingPayment", "Payment")">Pendientes de pago</a>
+				</li>
+                <li class="@DisplayAttribute("transaction")">
+                    <a href="@Url.Action("Transaction", "Payment")">Transacciones</a>
+                </li>
+            </ul>
+        </li>
+
+        <li class="has-submenu @DisplayGroupAttribute("users")">
+            <a href="@Url.Action("Users", "Manage", new { area = "Admin" })"><i class="fa fa-user"></i> <span class="nav-label">Usuarios</span></a>            
+        </li>
+
+        <li class="has-submenu">
+            <a href="#" target="_blank"><i class="fa fa-question"></i> <span class="nav-label">Guia</span></a>
+        </li>
+    </ul>
+</nav>

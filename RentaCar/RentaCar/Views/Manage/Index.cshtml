@@ -28,6 +28,14 @@
             @Model.Logins.Count [
             @Html.ActionLink("Administrar", "ManageLogins") ]
         </dd>
+        @if (User.IsInRole("Admin"))
+        {
+        <dt>Panel Administrativo:</dt>
+        <dd>
+            <input type="button" onclick='location.href="@Url.Action("Index", "Home", new { area = "Admin" })"' value="ADMIN" class="btn btn-primary" />
+          
+        </dd>
+        }
         @*
             Los números de teléfono se pueden usar como un segundo factor de comprobación en un sistema de autenticación en dos fases.
              

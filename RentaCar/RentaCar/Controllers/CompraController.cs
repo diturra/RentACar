@@ -5,6 +5,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using RentaCar.Datos;
+using RentaCar.Models;
 
 namespace RentaCar.Controllers
 {
@@ -26,7 +27,23 @@ namespace RentaCar.Controllers
 
             var vehiculo = db.Vehiculo.FirstOrDefault(x => x.id == id);
 
-            return View(vehiculo);
+            if(Session["fechas"] == null)
+            {
+                return View("Index", "Home");
+            }
+
+
+            BuscadorPrincipal bus = (BuscadorPrincipal)Session["fechas"];
+            bus.TotalPorDias = bus.Dias * vehiculo.valor;
+
+
+            CompraIndex ci = new CompraIndex()
+            {
+                buscador = (BuscadorPrincipal)Session["fechas"],
+                Vehiculo = vehiculo
+            };
+
+            return View(ci);
         }
     }
 }

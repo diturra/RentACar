@@ -44,11 +44,15 @@ namespace RentaCar.Controllers
 
             if (ModelState.IsValid)
             {
-                Session["fechas"] = model;
-
-
                var ordenes = db.Orden.Where(x => x.estado != (int)EstadoOrden.Cancelado).ToList();   //traigo toda las orden que no esten cancelada
 
+                int dias = 0;
+                for (DateTime date = desde; date <= hasta; date = date.AddDays(1)) // sacamos los dias 
+                {
+                    dias++;
+                }
+                model.Dias = dias;
+                Session["fechas"] = model;
                 if (ordenes.Count() == 0) //si es 0 que no avance para que no caiga el programa
                     return View(db.Vehiculo.ToList());
 
@@ -72,6 +76,7 @@ namespace RentaCar.Controllers
                 foreach(FiltroFechas item in filtroFechas)
                 {
                     int cont = 0;
+                 
                     foreach (var fecha in item.FechasCocinadas)
                     {
                         for (DateTime date = desde; date < hasta; date = date.AddDays(1)) //colo la lista
@@ -80,7 +85,9 @@ namespace RentaCar.Controllers
                             {
                                 cont++;
                             }
+                          
                         }
+                      
                     }
 
                     if (cont == 0)
@@ -88,9 +95,7 @@ namespace RentaCar.Controllers
                         listavehiculo.Add(item.Vehiculo);
                     }
                 }
-               
-
-                var lista = db.Vehiculo.ToList();
+            
                 ViewBag.Message = "Your contact page.";
 
                 return View(listavehiculo.ToList());

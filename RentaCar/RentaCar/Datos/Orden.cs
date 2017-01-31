@@ -14,16 +14,29 @@ namespace RentaCar.Datos
     
     public partial class Orden
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public Orden()
+        {
+            this.DetalleSeguro = new HashSet<DetalleSeguro>();
+        }
+    
         public int id { get; set; }
         public System.DateTime desde { get; set; }
         public System.DateTime hasta { get; set; }
-        public Nullable<int> dias_totales { get; set; }
+        public int dias_totales { get; set; }
         public int vehiculoID { get; set; }
         public int estado { get; set; }
         public int total { get; set; }
         public string userID { get; set; }
+        public string tiempo_desde { get; set; }
+        public string tiempo_hasta { get; set; }
+        public string ciudad { get; set; }
+        public string comuna { get; set; }
+        public string direccion { get; set; }
     
         public virtual Vehiculo Vehiculo { get; set; }
         public virtual AspNetUsers AspNetUsers { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<DetalleSeguro> DetalleSeguro { get; set; }
     }
 }

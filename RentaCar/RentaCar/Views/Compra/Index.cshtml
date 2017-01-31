@@ -1,50 +1,80 @@
-﻿@model RentaCar.Datos.Vehiculo
+﻿@model RentaCar.Models.CompraIndex
     @using RentaCar.Models
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
-    if(Session["fechas"] == null)
-    {
-        Response.Redirect("Home");
-    }
-
-    var llenar = (BuscadorPrincipal)Session["fechas"];
 }
 
 
 
     <div class="gtco-container">
-        <div class="row">
+        <div class="row" style="padding-top:30px;">
             <div class="col-md-4">
-                <img src="@Model.url_foto" class="img-responsive" />
+                <img src="@Model.Vehiculo.url_foto" class="img-responsive" />
+                <div class="">
+                    <h3 style="color:#FBB448 !important; text-align: center;">@Model.Vehiculo.modelo</h3>
+                </div>
             </div>
             <div class="col-md-8 text-center">
                     <div class="col-md-12 mt-text animate-box" data-animate-effect="fadeInUp">
 
-                        <span class="intro-text-small">Indicar fecha y hora en<a href="#">Loyca</a></span>
+                        <span class="intro-text-small">Fecha de entrega y salida</span>
                         <div class="barra">
                             <div class="row form-group">
                                 <div class="col-md-3">
                                     <label for="date-start" class="text-uppercase">Desde </label>
-                                    <input type="text" class="form-control" value="@llenar.Fechadesde" readonly>
+                                    <input type="text" class="form-control" value="@Model.buscador.Fechadesde" readonly>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="date-start" class="text-uppercase">Hora </label>
-                                    <input type="text" class="form-control" value="@llenar.Timedesde" readonly>
+                                    <input type="text" class="form-control" value="@Model.buscador.Timedesde" readonly>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="date-start" class="text-uppercase">Hasta </label>
-                                    <input type="text"class="form-control" value="@llenar.Fechahasta" readonly>
+                                    <input type="text"class="form-control" value="@Model.buscador.Fechahasta" readonly>
                                 </div>
                                 <div class="col-md-3">
                                     <label for="date-start" class="text-uppercase">Hora </label>
-                                    <input type="text" class="form-control" value="@llenar.Timehasta" readonly>
+                                    <input type="text" class="form-control" value="@Model.buscador.Timehasta" readonly>
                                 </div>
                             </div>
-                          
+                           <hr />
+                            <div class="row">
+                                <div class="col-md-4">
+                                    <p><span class="glyphicon glyphicon-ok primary-color fa-lg" aria-hidden="true"></span>@Model.buscador.Dias Dias</p>
+                                 
+                                </div>
+                                <div class="col-md-4">
+                                    <span class="glyphicon glyphicon-arrow-right fa-lg"></span>
+                            
+                                </div>
+                                <div class="col-md-4">
+                                    <p>@string.Format("{0:N0}", Model.Vehiculo.valor) X @Model.buscador.Dias DIAS</p>                                  
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-4">                               
+                                </div>
+                                <div class="col-md-4">
+                                  
+                                    <h2 style="padding-top:20px;">Total .</h2>
+                                </div>
+                                <div class="col-md-4">
+                                    <div style="border:solid 2px; text-align:center;box-shadow: 0px 1px 20px 0px rgba(0, 0, 0,3); border-color:#FBB448;">
+                                        <h2 style="padding-top:10px;">@string.Format("{0} {1:N0}", "$", Model.buscador.TotalPorDias)</h2>
+                                    </div>
+                                </div>
+                            </div>
+                        
                         </div>
                     </div>
             </div>
+        </div>
+        <div class="page-header">
+            <h1>Seguros<small> e información</small></h1>
+        </div>
+        <div class="row">
+
         </div>
     </div>
 
