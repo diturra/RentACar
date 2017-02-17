@@ -151,7 +151,7 @@ namespace RentaCar.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Telefono, Email = model.Email, PhoneNumber= model.Telefono };
+                var user = new ApplicationUser { UserName = model.Telefono, Email = model.Email, PhoneNumber= model.Telefono, Nombre=model.Nombre, Apellido=model.Apellido };
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {

@@ -1,56 +1,62 @@
-﻿<div class="col-md-3">
-    <form action="@Url.Action("Refinar","Home")" method="post" role="form" enctype="multipart/form-data">
-        <div class="panel panel-warning">
-            <!-- Default panel contents -->
-            <div class="panel-heading">Busqueda avanzada</div>
-            <div class="panel-body">
+﻿@model IEnumerable<RentaCar.Datos.Categoria>
+<style>
+    #sidebar .heading {
+        padding: 5px;
+        border-bottom: 3px double #333333;
+    }
 
-            </div>
+    #sidebar .box {
+        margin-bottom: 20px;
+    }
 
-            <!-- Table -->
-            <table class="table">
-                <tr>
-                    <td>Transmision</td>
-                    <td>
-                        <select class="form-control dropdown" name="Transmision">
-                            <option value="">Seleccionar...</option>
-                            <option value="M">Manual</option>
-                            <option value="A">Automatico</option>
-                        </select>
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Cantidad pasajeros
-                    </td>
-                    <td>
-                        <input type="number" min="0" max="10" maxlength="2" name="Pasajeros" class="form-control" />
-                    </td>
-                </tr>
-                <tr>
-                    <td>
-                        Aire acondicionado
-                    </td>
-                    <td>
-                        <input type="checkbox" name="AC" value="true" style="margin: 10px 50px 10px;" />
-                    </td>
-                </tr>
-            </table>
-            <div class="text-center">
-                <input type="submit" value="Filtrar" class="btn btn-primary" />
+    .wrap-col {
+        margin: 10px;
+    }
+
+    #sidebar .content {
+        padding: 15px;
+    }
+
+        #sidebar .content ul {
+            font-size: 14px;
+            list-style-type: circle;
+            margin-left: 20px;
+        }
+
+
+    ol, ul {
+        list-style: none;
+    }
+
+    #sidebar .content ul li {
+        border-bottom: 1px solid #E1E1E1;
+        padding: 5px;
+    }
+</style>
+<div class="col-md-2">
+    <div class="wrap-col">
+        <div class="box">
+            <div class="heading"><h2>Categoria</h2></div>
+            <div class="content">
+                <ul>
+                    @foreach (var item in Model)
+                    {
+                        <li><a href="@Url.Action("Home","Home", new { id = item.id })">@item.nombre</a></li>
+                    }
+                </ul>
             </div>
         </div>
-    </form>
+        <div class="box">
+            <div class="heading"><h2>Categories</h2></div>
+            <div class="content">
+                <ul>
+                    <li><a href="">Category 1</a></li>
+                    <li><a href="">Category 2</a></li>
+                    <li><a href="">Category 3</a></li>
+                    <li><a href="">Category 4</a></li>
+                    <li><a href="">Category 5</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
 </div>
-<style>
-    .form-control {
-    box-shadow: none;
-    /* background: rgba(76, 72, 72, 0); */
-    border: 2px solid rgba(0, 0, 0, 0.1);
-    /* height: 46px; */
-    font-size: 14px;
-    /* font-weight: 300; */
-    padding-left: 15px;
-    padding-right: 15px;
-}
-</style>

@@ -1,8 +1,14 @@
-﻿@{
+﻿@model IEnumerable<RentaCar.Datos.Vehiculo>
+@{
     ViewBag.Title = "Home Page";
 }
 @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
+@section estilo{
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
+
+<!-- Latest compiled and minified JavaScript -->
+}
 
 <header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url('../../Imagenes/Fondo_Index.jpg');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
@@ -24,29 +30,59 @@
                                         <h3 class="cursive-font">Buscar</h3>
                                         @using (Html.BeginForm("Buscar", "Home", FormMethod.Get, new { @id="form" }))
                                         {
-                                            <div class="row form-group">
-                                                <div class="col-md-12">
+                                            <div class="row form-group ">
+                                                <div class="col-md-12 input-group"> 
                                                     <label for="date-start">Fecha de salida</label>
-                                                    <input type="text" data-format="DD-MM-YYYY" name="Fechadesde" id="datedesde" class="form-control">
+                                                    <input type="text" data-format="DD-MM-YYYY" name="Fechadesde" placeholder="Ingresar fecha..." id="datedesde" class="form-control">
                                                 </div>
                                             </div>
-                                            <div class="row form-group">
+                                            <div class="row form-group ">
                                                 <div class="col-md-12">
+                                                    
                                                     <label for="date-start">Hora de salida</label>
-                                                    <input type="text" id="timedesde" name="Timedesde" class="form-control">
+                                                    <select name="Timedesde" id="timedesde" class="form-control">
+                                                        <option style="color:gray;" value="">Selecciona una hora...</option>
+                                                        <option style="color:gray;" value="9:00">9:00 </option>
+                                                        <option style="color:gray;" value="10:00">10:00</option>
+                                                        <option style="color:gray;" value="11:00">11:00</option>
+                                                        <option style="color:gray;" value="12:00">12:00</option>
+                                                        <option style="color:gray;" value="13:00">13:00</option>
+                                                        <option style="color:gray;" value="14:00">14:00</option>
+                                                        <option style="color:gray;" value="15:00">15:00</option>
+                                                        <option style="color:gray;" value="16:00">16:00</option>
+                                                        <option style="color:gray;" value="17:00">17:00</option>
+                                                        <option style="color:gray;" value="18:00">18:00</option>
+                                                        <option style="color:gray;" value="19:00">19:00</option>
+                                                        
+                                                    </select>
+                                                  
                                                 </div>
                                             </div>
                                             <hr />
                                             <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <label for="date-start">Fecha de retorno</label>
-                                                    <input type="text" name="Fechahasta" id="datehasta" class="form-control">
+                                                    <input type="text" name="Fechahasta" id="datehasta" placeholder="Ingresar fecha..." class="form-control">
                                                 </div>
                                             </div>
                                             <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <label for="date-start">Hora de retorno</label>
-                                                    <input type="text" id="timehasta" name="Timehasta" class="form-control">
+                                                    <select name="Timehasta" id="timehasta" class="form-control">
+                                                        <option style="color:gray;" value="">Selecciona una hora...</option>
+                                                        <option style="color:gray;" value="9:00">9:00 </option>
+                                                        <option style="color:gray;" value="10:00">10:00</option>
+                                                        <option style="color:gray;" value="11:00">11:00</option>
+                                                        <option style="color:gray;" value="12:00">12:00</option>
+                                                        <option style="color:gray;" value="13:00">13:00</option>
+                                                        <option style="color:gray;" value="14:00">14:00</option>
+                                                        <option style="color:gray;" value="15:00">15:00</option>
+                                                        <option style="color:gray;" value="16:00">16:00</option>
+                                                        <option style="color:gray;" value="17:00">17:00</option>
+                                                        <option style="color:gray;" value="18:00">18:00</option>
+                                                        <option style="color:gray;" value="19:00">19:00</option>
+
+                                                    </select>
                                                 </div>
                                             </div>
                                             <div class="row form-group">
@@ -80,7 +116,7 @@
             </div>
         </div>
         <div class="row">
-            @Html.Partial("_CartaVehiculo")
+            @Html.Partial("_CartaVehiculo",Model)
         </div>
     </div>
 </div>
@@ -165,11 +201,13 @@
 
     </div>
 </footer>
+@section Scripts {
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
 <script>
-
     function ValidarFechas() {
-
-        if ($('#datedesde').val() == "" || $('#timedesde').val() == "" || $('#datedesde').val() == "" || $('#timedesde').val() == "")
+        var timedesde = $('#timedesde').val().split(":");
+        var timehasta = $('#timehasta').val().split(":");
+        if ($('#datedesde').val() == "" || $('#timedesde').val() == "" || $('#datehasta').val() == "" || $('#timehasta').val() == "")
         {
             swal("Porfavor, llenar todos los campos del formulario!");
             return false;
@@ -178,19 +216,23 @@
         if ($('#datedesde').val() != "" && $('#datehasta').val() !="") {
             var desde = $('#datedesde').val().split("-");
             var hasta = $('#datehasta').val().split("-");
-            var des = new Date(desde[2], desde[1] - 1, desde[0], 23, 59, 0, 0);
-            var has = new Date(hasta[2], hasta[1] - 1, hasta[0], 23, 59, 0, 0);
+            var des = new Date(desde[2], desde[1] - 1, desde[0], timedesde[0], timedesde[1], 0, 0);
+            var has = new Date(hasta[2], hasta[1] - 1, hasta[0], timehasta[0], timehasta[1], 0, 0);
+            console.log(des);
             if (des < new Date()) {
                 swal("No puedes seleccionar una fecha menor a la de hoy!");
                 return false;
             }
+
             if (des > has) {
                 swal("Datos mal ingresado");
                 return false;
             }
         }
-
+        
         $('#form').submit();
 
     }
 </script>
+
+    }

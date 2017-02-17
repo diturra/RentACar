@@ -73,7 +73,7 @@
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.url_foto)
+           <img src="@Html.DisplayFor(model => model.url_foto)" class="img-responsive" />
         </dd>
 
         <dt>
@@ -107,7 +107,7 @@
 
         <div class="form-actions no-color">
             <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+            @Html.ActionLink("Volver", "Index")
         </div>
     }
 </div>

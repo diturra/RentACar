@@ -3,6 +3,7 @@ using RentaCar.Models;
 using RentaCar.Models.Enum;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -13,8 +14,9 @@ namespace RentaCar.Controllers
     {
         public ActionResult Index()
         {
-          
-            return View();
+            RentaCarEntities db = new RentaCarEntities();
+            
+            return View(db.Vehiculo.ToList());
         }
 
         public ActionResult IndexLogin()
@@ -39,8 +41,18 @@ namespace RentaCar.Controllers
         public ActionResult Buscar(BuscadorPrincipal model)
         {
             RentaCarEntities db = new RentaCarEntities();
-            DateTime desde = Convert.ToDateTime(model.Fechadesde);
-            DateTime hasta = Convert.ToDateTime(model.Fechahasta);
+            ListadoVehiculo listado;
+            DateTime desde;
+            DateTime hasta;
+            try
+            {
+                 desde = Convert.ToDateTime(string.Format("{0} {1}", model.Fechadesde, model.Timedesde));
+                 hasta = Convert.ToDateTime(string.Format("{0} {1}", model.Fechahasta, model.Timehasta));
+            }
+            catch
+            {
+                return View("Index");
+            }
 
             if (ModelState.IsValid)
             {
@@ -52,14 +64,25 @@ namespace RentaCar.Controllers
                     dias++;
                 }
                 model.Dias = dias;
+                model.Fechacompletadesde = desde;
+                model.Fechacompletahasta = hasta;
+
                 Session["fechas"] = model;
                 if (ordenes.Count() == 0) //si es 0 que no avance para que no caiga el programa
-                    return View(db.Vehiculo.ToList());
+                {
+                    listado = new ListadoVehiculo()
+                    {
+                        listadisponibles = db.Vehiculo.ToList(),
+                        listaNodisponible = new List<Vehiculo>()
+                    };
+                    return View(listado);
+                }
+                    
 
 
                 List<FiltroFechas> filtroFechas = new List<FiltroFechas>();
 
-                List<Vehiculo> listavehiculo = new List<Vehiculo>();
+                List<Vehiculo> listavehiculo = db.Vehiculo.Include(x => x.Categoria).ToList();
                
                 foreach (var item in ordenes)
                 {
@@ -72,7 +95,10 @@ namespace RentaCar.Controllers
                     }
                     filtroFechas.Add(fil);
                 }
-               
+
+                List<Vehiculo> listanodisponible = new List<Vehiculo>();
+
+
                 foreach(FiltroFechas item in filtroFechas)
                 {
                     int cont = 0;
@@ -81,7 +107,7 @@ namespace RentaCar.Controllers
                     {
                         for (DateTime date = desde; date < hasta; date = date.AddDays(1)) //colo la lista
                         {
-                            if (date == fecha)
+                            if (date.ToShortDateString().Equals(fecha.Date.ToShortDateString()))
                             {
                                 cont++;
                             }
@@ -90,15 +116,22 @@ namespace RentaCar.Controllers
                       
                     }
 
-                    if (cont == 0)
+                    if (cont != 0) 
                     {
-                        listavehiculo.Add(item.Vehiculo);
+                        listanodisponible.Add(item.Vehiculo);  //agregamos a la lista no disponible
+                        listavehiculo.Remove(item.Vehiculo);  // lista de disponible lo sacamos
                     }
-                }
-            
-                ViewBag.Message = "Your contact page.";
 
-                return View(listavehiculo.ToList());
+                }
+                ViewBag.Message = "Your contact page.";
+                listado = new ListadoVehiculo()
+                {
+                    listadisponibles = listavehiculo.OrderByDescending(x => x.valor).ToList(),
+                    listaNodisponible = listanodisponible.OrderByDescending(x => x.valor).ToList(),
+                    listaCategoria = db.Categoria.ToList()
+                };
+
+                return View(listado);
             }
 
             return new HttpNotFoundResult();

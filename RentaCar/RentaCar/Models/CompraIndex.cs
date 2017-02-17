@@ -10,5 +10,7 @@ namespace RentaCar.Models
     {
         public BuscadorPrincipal buscador { get; set; }
         public Vehiculo Vehiculo { get; set; }
+
+        public List<Seguro> Seguros { get; set; }
     }
 }

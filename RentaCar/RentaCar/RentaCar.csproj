@@ -267,6 +267,7 @@
     <Compile Include="Models\Enum\EstadoOrden.cs" />
     <Compile Include="Models\FiltroFechas.cs" />
     <Compile Include="Models\IdentityModels.cs" />
+    <Compile Include="Models\ListadoVehiculo.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
@@ -299,6 +300,7 @@
     <Content Include="css\owl.theme.default.min.css" />
     <Content Include="css\style.css" />
     <Content Include="css\themify-icons.css" />
+    <Content Include="css\_Buscador.css" />
     <Content Include="Datos\RentEDM.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
       <DependentUpon>RentEDM.edmx</DependentUpon>
@@ -319,12 +321,15 @@
     <Content Include="fonts\themify-icons\themify.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
+    <Content Include="Imagenes\Afiche.jpg" />
     <Content Include="Imagenes\Autos\Autoazul.jpg" />
     <Content Include="Imagenes\Autos\AutoRojo.png" />
     <Content Include="Imagenes\auto_registro.jpg" />
     <Content Include="Imagenes\Fondo_Index.jpg" />
+    <Content Include="Imagenes\llavesAdornoBuscador.png" />
     <Content Include="Imagenes\loader.gif" />
     <Content Include="Imagenes\puerta.png" />
+    <Content Include="Imagenes\sello.png" />
     <Content Include="js\admin\app.js" />
     <Content Include="js\admin\fileinput.js" />
     <Content Include="js\admin\fileinput.min.js" />

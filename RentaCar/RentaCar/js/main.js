@@ -300,20 +300,20 @@
 	        //locale: 'ru'
 	    });
 
-	    $('#timedesde').datetimepicker({
-	        format: 'LT',
-	        stepping: 30
-	    });
+	    //$('#timedesde').datetimepicker({
+	    //    format: 'LT',
+	    //    stepping: 30
+	    //});
 
 	    $('#datehasta').datetimepicker({
 	        format: 'DD-MM-YYYY',
             //locale : 'es'
 	    });
 
-	    $('#timehasta').datetimepicker({
-	        format: 'LT',
-	        stepping: 30
-	    });
+	    //$('#timehasta').datetimepicker({
+	    //    format: 'LT',
+	    //    stepping: 30
+	    //});
 		
 	};
 

@@ -1781,7 +1781,8 @@ form label {
   z-index: 22;
 }
 .fh5co-card-item .fh5co-text:before {
-  position: absolute;
+  /*position: absolute;*/
+  display:none;
  /*top: -40px;*/
   right: 0;
   left: 0;

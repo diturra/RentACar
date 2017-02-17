@@ -1,4 +1,4 @@
-﻿@model IEnumerable<RentaCar.Datos.Vehiculo>
+﻿@model RentaCar.Models.ListadoVehiculo
 @{
     ViewBag.Title = "Buscar";
     Layout = "~/Views/Shared/_Layout.cshtml";
@@ -8,43 +8,69 @@
   
 
     <h2 class="primary-color text-center">Vehículos</h2>
-    @Html.Partial("_Buscador")
-    <div class="col-md-9">
+    @Html.Partial("_Buscador",Model.listaCategoria)
+    <div class="col-md-8">
         <div class="row">
-            @foreach(var item in Model)
+            @foreach(var item in Model.listadisponibles)
             {
                 <div class="col-lg-12 col-md-12 col-sm-6">
                     <div class="fh5co-card-item">
-                        <figure style="align-items:center;">
-                            <img src="@item.url_foto"  alt="Image" class="img-responsive" />
-                        </figure>
-                        <br />
-                        <div class="fh5co-text">
-                            <h2>@item.modelo</h2>
-                            <table class="table">
-                                <tr>
-                                    @if (item.aire_acondicionado)
-                                    {
-                                    <td><i class="fa fa-snowflake-o" style="color:blue;" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Aire Acondicionado"></i> A/C</td>
-                                    }
-                                    <td><i class="fa fa-user" style="color:green;" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Capacidad"></i> @item.capacidad Pasajeros</td>
-                                    <td><i class="fa fa-microchip" aria-hidden="true"  data-toggle="tooltip" data-placement="top" title="Transmision"></i> @item.transmision</td>
-                                    <td><img src="~/Imagenes/puerta.png" style="width:15px; height:15px;"  data-toggle="tooltip" data-placement="top" title="Puertas" /> @item.puertas</td>
-                                </tr>
-                            </table>
-                          
-                            <p><span>Valor Diario:</span></p>
-                            <p><span class="price cursive-font">@string.Format("{0} {1:N0}","$",item.valor)</span>
-                                <div style="padding: 10px;">
-                                    <input type="button" class="btn btn-primary" onclick="location.href='@Url.Action("Index","Compra", new { id = item.id })'" value="Arrendar" />
+                        <div class="row">
+
+                            <div class="col-md-5">                         
+                            <figure style="align-items:center;">
+                                <img src="@item.url_foto" alt="Image" class="img-responsive" />
+                            </figure>
+                             </div>
+                            <br />
+                            <div class="fh5co-text">
+                                <h2>@item.modelo</h2>
+                                <p><span>@item.Categoria.nombre</span></p>
+                                <table class="table">
+                                    <tr>
+                                        @if (item.aire_acondicionado)
+                                        {
+                                            <td><i class="fa fa-snowflake-o" style="color:blue;" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Aire Acondicionado"></i> A/C</td>
+                                        }
+                                        <td><i class="fa fa-user" style="color:green;" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Capacidad"></i> @item.capacidad Pasajeros</td>
+                                        <td><i class="fa fa-microchip" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Transmision"></i> @item.transmision</td>
+                                        <td><img src="~/Imagenes/puerta.png" style="width:15px; height:15px;" data-toggle="tooltip" data-placement="top" title="Puertas" /> @item.puertas</td>
+                                    </tr>
+                                </table>
+                                <div class="row">
+                                    <div class="col-md-6" style="text-align:left;">
+                                        <ul style="list-style:none;">
+                                            <li><span class="glyphicon glyphicon-ok" style="color:green;"></span> Kilometraje Ilimitado.</li>
+                                            <li><span class="glyphicon glyphicon-ok" style="color:green;"></span> Sistema GPS para tu seguridad.</li>
+                                        </ul>
+                                        <hr />
+
+                                        <div style="text-align:center;" class="col-md-offset-4 hidden-sm hidden-xs">
+                                            <img src="~/Imagenes/sello.png" class="img-responsive" style="width:100px;" />
+                                        </div>
+
+                                    </div>
+                                    <div class="col-md-6">
+                                        <p><span>Valor Diario:</span></p>
+                                        <p>
+                                            <span class="price cursive-font">@string.Format("{0} {1:N0} + IVA", "$", item.valor)</span>
+                                            <div style="padding: 10px;">
+                                                <input type="button" class="btn btn-primary btn-block" onclick="location.href='@Url.Action("Index","Compra", new { id = item.id })'" value="Arrendar" />
+                                            </div>
+                                        </p>
+                                    </div>
                                 </div>
-                            </p>
+                            </div>
                         </div>
                     </div>
                 </div>
+           
             }
            
         </div>
+    </div>
+    <div class="col-md-2">
+        <img src="~/Imagenes/Afiche.jpg" class="img-responsive clearfix" />
     </div>
 
 </div>

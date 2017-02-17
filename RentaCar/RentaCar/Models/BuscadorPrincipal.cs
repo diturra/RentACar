@@ -19,5 +19,7 @@ namespace RentaCar.Models
         public int Dias { get; set; }
 
         public int TotalPorDias { get; set; }
+        public DateTime? Fechacompletadesde { get; set; }
+        public DateTime? Fechacompletahasta { get; set; }
     }
 }

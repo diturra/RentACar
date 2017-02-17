@@ -92,8 +92,8 @@
 
         <div class="row">
             <div class="form-group">
-                @Html.LabelFor(model => model.disponible, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-1">
+                @Html.LabelFor(model => model.disponible, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
                     <div class="checkbox">
                         @Html.EditorFor(model => model.disponible)
                         @Html.ValidationMessageFor(model => model.disponible, "", new { @class = "text-danger" })
@@ -101,8 +101,8 @@
                 </div>
             </div>
             <div class="form-group">
-                @Html.LabelFor(model => model.aire_acondicionado, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-1">
+                @Html.LabelFor(model => model.aire_acondicionado, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
                     <div class="checkbox">
                         @Html.EditorFor(model => model.aire_acondicionado)
                         @Html.ValidationMessageFor(model => model.aire_acondicionado, "", new { @class = "text-danger" })
@@ -111,8 +111,8 @@
             </div>
 
             <div class="form-group">
-                @Html.LabelFor(model => model.cierre_centralizado, htmlAttributes: new { @class = "control-label col-md-3" })
-                <div class="col-md-1">
+                @Html.LabelFor(model => model.cierre_centralizado, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-2">
                     <div class="checkbox">
                         @Html.EditorFor(model => model.cierre_centralizado)
                         @Html.ValidationMessageFor(model => model.cierre_centralizado, "", new { @class = "text-danger" })
@@ -130,7 +130,7 @@
 
             }
             <div>
-                @Html.ActionLink("Back to List", "Index")
+                @Html.ActionLink("Volver a la lista", "Index")
             </div>
 
         </div>

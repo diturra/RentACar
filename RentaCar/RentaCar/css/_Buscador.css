@@ -1,0 +1,27 @@
+﻿#sidebar .heading {
+    padding: 5px;
+    border-bottom: 3px double #333333;
+}
+#sidebar .box {
+    margin-bottom: 20px;
+}
+.wrap-col {
+    margin: 10px;
+}
+#sidebar .content {
+    padding: 15px;
+}
+#sidebar .content ul {
+    font-size: 14px;
+    list-style-type: circle;
+    margin-left: 20px;
+}
+
+
+ol, ul {
+    list-style: none;
+}
+#sidebar .content ul li {
+    border-bottom: 1px solid #E1E1E1;
+    padding: 5px;
+}
