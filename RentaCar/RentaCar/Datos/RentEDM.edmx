@@ -65,6 +65,21 @@
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="varchar" MaxLength="100" Nullable="false" />
         </EntityType>
+        <EntityType Name="Ciudad">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Comuna">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="id_ciudad" Type="int" Nullable="false" />
+          <Property Name="nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="DetalleSeguro">
           <Key>
             <PropertyRef Name="id" />
@@ -78,18 +93,23 @@
             <PropertyRef Name="id" />
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="userID" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="fecha_desde" Type="datetime" Nullable="false" />
+          <Property Name="fecha_hasta" Type="datetime" Nullable="false" />
           <Property Name="desde" Type="date" Nullable="false" />
           <Property Name="hasta" Type="date" Nullable="false" />
           <Property Name="tiempo_desde" Type="nvarchar" MaxLength="50" Nullable="false" />
           <Property Name="tiempo_hasta" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="fecha_creacion" Type="datetime" Nullable="false" />
           <Property Name="dias_totales" Type="int" Nullable="false" />
           <Property Name="vehiculoID" Type="int" Nullable="false" />
           <Property Name="estado" Type="int" Nullable="false" />
-          <Property Name="total" Type="int" Nullable="false" />
-          <Property Name="userID" Type="nvarchar" MaxLength="128" Nullable="false" />
-          <Property Name="ciudad" Type="nvarchar" MaxLength="50" Nullable="false" />
-          <Property Name="comuna" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="comuna" Type="int" Nullable="false" />
           <Property Name="direccion" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="total_precio_dias" Type="int" Nullable="false" />
+          <Property Name="total_precio_abono" Type="int" Nullable="false" />
+          <Property Name="total_precio_seguro" Type="int" Nullable="false" />
+          <Property Name="total_final" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Seguro">
           <Key>
@@ -97,6 +117,7 @@
           </Key>
           <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="nombre" Type="nvarchar" MaxLength="50" Nullable="false" />
+          <Property Name="informacion" Type="nvarchar(max)" Nullable="false" />
           <Property Name="valor" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="Vehiculo">
@@ -116,6 +137,18 @@
           <Property Name="url_foto" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="disponible" Type="bit" Nullable="false" />
         </EntityType>
+        <Association Name="FK_Comuna_Ciudad">
+          <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="1" />
+          <End Role="Comuna" Type="Self.Comuna" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ciudad">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Comuna">
+              <PropertyRef Name="id_ciudad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
             <OnDelete Action="Cascade" />
@@ -208,6 +241,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_Orden_Comuna">
+          <End Role="Comuna" Type="Self.Comuna" Multiplicity="1" />
+          <End Role="Orden" Type="Self.Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comuna">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Orden">
+              <PropertyRef Name="comuna" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Orden_Vehiculo">
           <End Role="Vehiculo" Type="Self.Vehiculo" Multiplicity="1" />
           <End Role="Orden" Type="Self.Orden" Multiplicity="*" />
@@ -239,10 +284,16 @@
           <EntitySet Name="AspNetUserRoles" EntityType="Self.AspNetUserRoles" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Categoria" EntityType="Self.Categoria" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ciudad" EntityType="Self.Ciudad" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Comuna" EntityType="Self.Comuna" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="DetalleSeguro" EntityType="Self.DetalleSeguro" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Orden" EntityType="Self.Orden" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Seguro" EntityType="Self.Seguro" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="Vehiculo" EntityType="Self.Vehiculo" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK_Comuna_Ciudad" Association="Self.FK_Comuna_Ciudad">
+            <End Role="Ciudad" EntitySet="Ciudad" />
+            <End Role="Comuna" EntitySet="Comuna" />
+          </AssociationSet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -271,6 +322,10 @@
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="Orden" EntitySet="Orden" />
           </AssociationSet>
+          <AssociationSet Name="FK_Orden_Comuna" Association="Self.FK_Orden_Comuna">
+            <End Role="Comuna" EntitySet="Comuna" />
+            <End Role="Orden" EntitySet="Orden" />
+          </AssociationSet>
           <AssociationSet Name="FK_Orden_Vehiculo" Association="Self.FK_Orden_Vehiculo">
             <End Role="Vehiculo" EntitySet="Vehiculo" />
             <End Role="Orden" EntitySet="Orden" />
@@ -284,6 +339,58 @@
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="RentaCarModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="AspNetRoles">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserClaims">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUserLogins">
+          <Key>
+            <PropertyRef Name="LoginProvider" />
+            <PropertyRef Name="ProviderKey" />
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="LoginProvider" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="ProviderKey" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
+        </EntityType>
+        <EntityType Name="AspNetUsers">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
+          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
+          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
+          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
+          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
+          <Property Name="UserName" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="Apellido" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="AspNetUserClaims" Relationship="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
+          <NavigationProperty Name="AspNetUserLogins" Relationship="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
+          <NavigationProperty Name="Orden" Relationship="Self.FK_Orden_AspNetUsers" FromRole="AspNetUsers" ToRole="Orden" />
+          <NavigationProperty Name="AspNetRoles" Relationship="Self.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
+        </EntityType>
         <EntityType Name="Categoria">
           <Key>
             <PropertyRef Name="id" />
@@ -292,6 +399,34 @@
           <Property Name="nombre" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="Vehiculo" Relationship="Self.FK_Vehiculo_Categoria" FromRole="Categoria" ToRole="Vehiculo" />
         </EntityType>
+        <EntityType Name="Ciudad">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Comuna" Relationship="Self.FK_Comuna_Ciudad" FromRole="Ciudad" ToRole="Comuna" />
+        </EntityType>
+        <EntityType Name="Comuna">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_ciudad" Type="Int32" Nullable="false" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="Ciudad" Relationship="Self.FK_Comuna_Ciudad" FromRole="Comuna" ToRole="Ciudad" />
+          <NavigationProperty Name="Orden" Relationship="Self.FK_Orden_Comuna" FromRole="Comuna" ToRole="Orden" />
+        </EntityType>
+        <EntityType Name="DetalleSeguro">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="id_seguro" Type="Int32" Nullable="false" />
+          <Property Name="id_orden" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Orden" Relationship="Self.FK_DetalleSeguro_Orden" FromRole="DetalleSeguro" ToRole="Orden" />
+          <NavigationProperty Name="Seguro" Relationship="Self.FK_DetalleSeguro_Seguro" FromRole="DetalleSeguro" ToRole="Seguro" />
+        </EntityType>
         <EntityType Name="Orden">
           <Key>
             <PropertyRef Name="id" />
@@ -299,19 +434,35 @@
           <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="desde" Type="DateTime" Nullable="false" Precision="0" />
           <Property Name="hasta" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="tiempo_desde" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="tiempo_hasta" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
           <Property Name="dias_totales" Type="Int32" Nullable="false" />
           <Property Name="vehiculoID" Type="Int32" Nullable="false" />
           <Property Name="estado" Type="Int32" Nullable="false" />
-          <Property Name="total" Type="Int32" Nullable="false" />
           <Property Name="userID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="comuna" Type="Int32" Nullable="false" />
+          <Property Name="direccion" Type="String" MaxLength="100" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_Orden_AspNetUsers" FromRole="Orden" ToRole="AspNetUsers" />
+          <NavigationProperty Name="Comuna1" Relationship="Self.FK_Orden_Comuna" FromRole="Orden" ToRole="Comuna" />
+          <NavigationProperty Name="DetalleSeguro" Relationship="Self.FK_DetalleSeguro_Orden" FromRole="Orden" ToRole="DetalleSeguro" />
           <NavigationProperty Name="Vehiculo" Relationship="Self.FK_Orden_Vehiculo" FromRole="Orden" ToRole="Vehiculo" />
-          <NavigationProperty Name="AspNetUsers" Relationship="RentaCarModel.FK_Orden_AspNetUsers" FromRole="Orden" ToRole="AspNetUsers" />
-          <Property Name="tiempo_desde" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="tiempo_hasta" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="DetalleSeguro" Relationship="RentaCarModel.FK_DetalleSeguro_Orden" FromRole="Orden" ToRole="DetalleSeguro" />
-          <Property Name="ciudad" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="comuna" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="direccion" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="fecha_desde" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="fecha_hasta" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="total_precio_dias" Type="Int32" Nullable="false" />
+          <Property Name="total_precio_abono" Type="Int32" Nullable="false" />
+          <Property Name="total_precio_seguro" Type="Int32" Nullable="false" />
+          <Property Name="total_final" Type="Int32" Nullable="false" />
+          <Property Name="fecha_creacion" Type="DateTime" Nullable="false" Precision="3" />
+        </EntityType>
+        <EntityType Name="Seguro">
+          <Key>
+            <PropertyRef Name="id" />
+          </Key>
+          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nombre" Type="String" MaxLength="50" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="informacion" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="valor" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="DetalleSeguro" Relationship="Self.FK_DetalleSeguro_Seguro" FromRole="Seguro" ToRole="DetalleSeguro" />
         </EntityType>
         <EntityType Name="Vehiculo">
           <Key>
@@ -322,16 +473,56 @@
           <Property Name="modelo" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="capacidad" Type="Int32" Nullable="false" />
           <Property Name="transmision" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="puertas" Type="Int32" Nullable="false" />
           <Property Name="aire_acondicionado" Type="Boolean" Nullable="false" />
           <Property Name="cierre_centralizado" Type="Boolean" Nullable="false" />
           <Property Name="abono" Type="Int32" Nullable="false" />
           <Property Name="valor" Type="Int32" Nullable="false" />
           <Property Name="url_foto" Type="String" MaxLength="200" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="disponible" Type="Boolean" Nullable="false" />
           <NavigationProperty Name="Categoria" Relationship="Self.FK_Vehiculo_Categoria" FromRole="Vehiculo" ToRole="Categoria" />
           <NavigationProperty Name="Orden" Relationship="Self.FK_Orden_Vehiculo" FromRole="Vehiculo" ToRole="Orden" />
-          <Property Name="disponible" Type="Boolean" Nullable="false" />
-          <Property Name="puertas" Type="Int32" Nullable="false" />
         </EntityType>
+        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserClaims" Type="Self.AspNetUserClaims" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserClaims">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
+            <OnDelete Action="Cascade" />
+          </End>
+          <End Role="AspNetUserLogins" Type="Self.AspNetUserLogins" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="AspNetUserLogins">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orden_AspNetUsers">
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
+          <End Role="Orden" Type="Self.Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="AspNetUsers">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Orden">
+              <PropertyRef Name="userID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_Vehiculo_Categoria">
           <End Role="Categoria" Type="Self.Categoria" Multiplicity="1" />
           <End Role="Vehiculo" Type="Self.Vehiculo" Multiplicity="*" />
@@ -341,6 +532,54 @@
             </Principal>
             <Dependent Role="Vehiculo">
               <PropertyRef Name="categoriaID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Comuna_Ciudad">
+          <End Role="Ciudad" Type="Self.Ciudad" Multiplicity="1" />
+          <End Role="Comuna" Type="Self.Comuna" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ciudad">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Comuna">
+              <PropertyRef Name="id_ciudad" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_Orden_Comuna">
+          <End Role="Comuna" Type="Self.Comuna" Multiplicity="1" />
+          <End Role="Orden" Type="Self.Orden" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Comuna">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="Orden">
+              <PropertyRef Name="comuna" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetalleSeguro_Orden">
+          <End Role="Orden" Type="Self.Orden" Multiplicity="1" />
+          <End Role="DetalleSeguro" Type="Self.DetalleSeguro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Orden">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DetalleSeguro">
+              <PropertyRef Name="id_orden" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_DetalleSeguro_Seguro">
+          <End Role="Seguro" Type="Self.Seguro" Multiplicity="1" />
+          <End Role="DetalleSeguro" Type="Self.DetalleSeguro" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Seguro">
+              <PropertyRef Name="id" />
+            </Principal>
+            <Dependent Role="DetalleSeguro">
+              <PropertyRef Name="id_seguro" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -356,194 +595,116 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="AspNetUserRoles">
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
+        </Association>
         <EntityContainer Name="RentaCarEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
+          <EntitySet Name="AspNetUserClaims" EntityType="Self.AspNetUserClaims" />
+          <EntitySet Name="AspNetUserLogins" EntityType="Self.AspNetUserLogins" />
+          <EntitySet Name="AspNetUsers" EntityType="Self.AspNetUsers" />
           <EntitySet Name="Categoria" EntityType="Self.Categoria" />
+          <EntitySet Name="Ciudad" EntityType="Self.Ciudad" />
+          <EntitySet Name="Comuna" EntityType="Self.Comuna" />
+          <EntitySet Name="DetalleSeguro" EntityType="Self.DetalleSeguro" />
           <EntitySet Name="Orden" EntityType="Self.Orden" />
+          <EntitySet Name="Seguro" EntityType="Self.Seguro" />
           <EntitySet Name="Vehiculo" EntityType="Self.Vehiculo" />
+          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
+          </AssociationSet>
+          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orden_AspNetUsers" Association="Self.FK_Orden_AspNetUsers">
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
+            <End Role="Orden" EntitySet="Orden" />
+          </AssociationSet>
           <AssociationSet Name="FK_Vehiculo_Categoria" Association="Self.FK_Vehiculo_Categoria">
             <End Role="Categoria" EntitySet="Categoria" />
             <End Role="Vehiculo" EntitySet="Vehiculo" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Comuna_Ciudad" Association="Self.FK_Comuna_Ciudad">
+            <End Role="Ciudad" EntitySet="Ciudad" />
+            <End Role="Comuna" EntitySet="Comuna" />
+          </AssociationSet>
+          <AssociationSet Name="FK_Orden_Comuna" Association="Self.FK_Orden_Comuna">
+            <End Role="Comuna" EntitySet="Comuna" />
+            <End Role="Orden" EntitySet="Orden" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleSeguro_Orden" Association="Self.FK_DetalleSeguro_Orden">
+            <End Role="Orden" EntitySet="Orden" />
+            <End Role="DetalleSeguro" EntitySet="DetalleSeguro" />
+          </AssociationSet>
+          <AssociationSet Name="FK_DetalleSeguro_Seguro" Association="Self.FK_DetalleSeguro_Seguro">
+            <End Role="Seguro" EntitySet="Seguro" />
+            <End Role="DetalleSeguro" EntitySet="DetalleSeguro" />
           </AssociationSet>
           <AssociationSet Name="FK_Orden_Vehiculo" Association="Self.FK_Orden_Vehiculo">
             <End Role="Vehiculo" EntitySet="Vehiculo" />
             <End Role="Orden" EntitySet="Orden" />
           </AssociationSet>
-          <EntitySet Name="AspNetRoles" EntityType="RentaCarModel.AspNetRoles" />
-          <EntitySet Name="AspNetUserClaims" EntityType="RentaCarModel.AspNetUserClaims" />
-          <EntitySet Name="AspNetUserLogins" EntityType="RentaCarModel.AspNetUserLogins" />
-          <EntitySet Name="AspNetUsers" EntityType="RentaCarModel.AspNetUsers" />
-          <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="RentaCarModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
-          </AssociationSet>
-          <AssociationSet Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" Association="RentaCarModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="AspNetUserLogins" EntitySet="AspNetUserLogins" />
-          </AssociationSet>
-          <AssociationSet Name="FK_Orden_AspNetUsers" Association="RentaCarModel.FK_Orden_AspNetUsers">
-            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
-            <End Role="Orden" EntitySet="Orden" />
-          </AssociationSet>
-          <AssociationSet Name="AspNetUserRoles" Association="RentaCarModel.AspNetUserRoles">
+          <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="DetalleSeguro" EntityType="RentaCarModel.DetalleSeguro" />
-          <EntitySet Name="Seguro" EntityType="RentaCarModel.Seguro" />
-          <AssociationSet Name="FK_DetalleSeguro_Orden" Association="RentaCarModel.FK_DetalleSeguro_Orden">
-            <End Role="Orden" EntitySet="Orden" />
-            <End Role="DetalleSeguro" EntitySet="DetalleSeguro" />
-          </AssociationSet>
-          <AssociationSet Name="FK_DetalleSeguro_Seguro" Association="RentaCarModel.FK_DetalleSeguro_Seguro">
-            <End Role="Seguro" EntitySet="Seguro" />
-            <End Role="DetalleSeguro" EntitySet="DetalleSeguro" />
-          </AssociationSet>
         </EntityContainer>
-        <EntityType Name="AspNetRoles">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="RentaCarModel.AspNetUserRoles" FromRole="AspNetRoles" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUserClaims">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="ClaimType" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="ClaimValue" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="RentaCarModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUserClaims" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUserLogins">
-          <Key>
-            <PropertyRef Name="LoginProvider" />
-            <PropertyRef Name="ProviderKey" />
-            <PropertyRef Name="UserId" />
-          </Key>
-          <Property Name="LoginProvider" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="ProviderKey" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="UserId" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUsers" Relationship="RentaCarModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUserLogins" ToRole="AspNetUsers" />
-        </EntityType>
-        <EntityType Name="AspNetUsers">
-          <Key>
-            <PropertyRef Name="Id" />
-          </Key>
-          <Property Name="Id" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
-          <Property Name="Email" Type="String" MaxLength="256" FixedLength="false" Unicode="true" />
-          <Property Name="EmailConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="PasswordHash" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="SecurityStamp" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumber" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="PhoneNumberConfirmed" Type="Boolean" Nullable="false" />
-          <Property Name="TwoFactorEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="LockoutEndDateUtc" Type="DateTime" Precision="3" />
-          <Property Name="LockoutEnabled" Type="Boolean" Nullable="false" />
-          <Property Name="AccessFailedCount" Type="Int32" Nullable="false" />
-          <Property Name="UserName" Type="String" Nullable="false" MaxLength="256" FixedLength="false" Unicode="true" />
-          <NavigationProperty Name="AspNetUserClaims" Relationship="RentaCarModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserClaims" />
-          <NavigationProperty Name="AspNetUserLogins" Relationship="RentaCarModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" FromRole="AspNetUsers" ToRole="AspNetUserLogins" />
-          <NavigationProperty Name="Orden" Relationship="RentaCarModel.FK_Orden_AspNetUsers" FromRole="AspNetUsers" ToRole="Orden" />
-          <NavigationProperty Name="AspNetRoles" Relationship="RentaCarModel.AspNetUserRoles" FromRole="AspNetUsers" ToRole="AspNetRoles" />
-          <Property Name="Nombre" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-          <Property Name="Apellido" Type="String" MaxLength="Max" FixedLength="false" Unicode="true" />
-        </EntityType>
-        <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
-          <End Type="RentaCarModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="RentaCarModel.AspNetUserClaims" Role="AspNetUserClaims" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserClaims">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId">
-          <End Type="RentaCarModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1">
-            <OnDelete Action="Cascade" />
-          </End>
-          <End Type="RentaCarModel.AspNetUserLogins" Role="AspNetUserLogins" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="AspNetUserLogins">
-              <PropertyRef Name="UserId" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_Orden_AspNetUsers">
-          <End Type="RentaCarModel.AspNetUsers" Role="AspNetUsers" Multiplicity="1" />
-          <End Type="RentaCarModel.Orden" Role="Orden" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="AspNetUsers">
-              <PropertyRef Name="Id" />
-            </Principal>
-            <Dependent Role="Orden">
-              <PropertyRef Name="userID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="AspNetUserRoles">
-          <End Type="RentaCarModel.AspNetRoles" Role="AspNetRoles" Multiplicity="*" />
-          <End Type="RentaCarModel.AspNetUsers" Role="AspNetUsers" Multiplicity="*" />
-        </Association>
-        <EntityType Name="DetalleSeguro">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="id_seguro" Type="Int32" Nullable="false" />
-          <Property Name="id_orden" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="Orden" Relationship="RentaCarModel.FK_DetalleSeguro_Orden" FromRole="DetalleSeguro" ToRole="Orden" />
-          <NavigationProperty Name="Seguro" Relationship="RentaCarModel.FK_DetalleSeguro_Seguro" FromRole="DetalleSeguro" ToRole="Seguro" />
-        </EntityType>
-        <EntityType Name="Seguro">
-          <Key>
-            <PropertyRef Name="id" />
-          </Key>
-          <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="nombre" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="true" />
-          <Property Name="valor" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="DetalleSeguro" Relationship="RentaCarModel.FK_DetalleSeguro_Seguro" FromRole="Seguro" ToRole="DetalleSeguro" />
-        </EntityType>
-        <Association Name="FK_DetalleSeguro_Orden">
-          <End Type="RentaCarModel.Orden" Role="Orden" Multiplicity="1" />
-          <End Type="RentaCarModel.DetalleSeguro" Role="DetalleSeguro" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Orden">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="DetalleSeguro">
-              <PropertyRef Name="id_orden" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <Association Name="FK_DetalleSeguro_Seguro">
-          <End Type="RentaCarModel.Seguro" Role="Seguro" Multiplicity="1" />
-          <End Type="RentaCarModel.DetalleSeguro" Role="DetalleSeguro" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="Seguro">
-              <PropertyRef Name="id" />
-            </Principal>
-            <Dependent Role="DetalleSeguro">
-              <PropertyRef Name="id_seguro" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
     <edmx:Mappings>
       <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
         <EntityContainerMapping StorageEntityContainer="RentaCarModelStoreContainer" CdmEntityContainer="RentaCarEntities">
+          <EntitySetMapping Name="AspNetRoles">
+            <EntityTypeMapping TypeName="RentaCarModel.AspNetRoles">
+              <MappingFragment StoreEntitySet="AspNetRoles">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserClaims">
+            <EntityTypeMapping TypeName="RentaCarModel.AspNetUserClaims">
+              <MappingFragment StoreEntitySet="AspNetUserClaims">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
+                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUserLogins">
+            <EntityTypeMapping TypeName="RentaCarModel.AspNetUserLogins">
+              <MappingFragment StoreEntitySet="AspNetUserLogins">
+                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
+                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="AspNetUsers">
+            <EntityTypeMapping TypeName="RentaCarModel.AspNetUsers">
+              <MappingFragment StoreEntitySet="AspNetUsers">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Email" ColumnName="Email" />
+                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
+                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
+                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
+                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
+                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
+                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
+                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
+                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
+                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
+                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="Categoria">
             <EntityTypeMapping TypeName="RentaCarModel.Categoria">
               <MappingFragment StoreEntitySet="Categoria">
@@ -552,116 +713,92 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Orden">
-            <EntityTypeMapping TypeName="RentaCarModel.Orden">
-              <MappingFragment StoreEntitySet="Orden">
-                <ScalarProperty Name="direccion" ColumnName="direccion" />
-                <ScalarProperty Name="comuna" ColumnName="comuna" />
-                <ScalarProperty Name="ciudad" ColumnName="ciudad" />
-                <ScalarProperty Name="tiempo_hasta" ColumnName="tiempo_hasta" />
-                <ScalarProperty Name="tiempo_desde" ColumnName="tiempo_desde" />
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="desde" ColumnName="desde" />
-                <ScalarProperty Name="hasta" ColumnName="hasta" />
-                <ScalarProperty Name="dias_totales" ColumnName="dias_totales" />
-                <ScalarProperty Name="vehiculoID" ColumnName="vehiculoID" />
-                <ScalarProperty Name="estado" ColumnName="estado" />
-                <ScalarProperty Name="total" ColumnName="total" />
-                <ScalarProperty Name="userID" ColumnName="userID" />
+          <EntitySetMapping Name="Ciudad">
+            <EntityTypeMapping TypeName="RentaCarModel.Ciudad">
+              <MappingFragment StoreEntitySet="Ciudad">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="Vehiculo">
-            <EntityTypeMapping TypeName="RentaCarModel.Vehiculo">
-              <MappingFragment StoreEntitySet="Vehiculo">
-                <ScalarProperty Name="puertas" ColumnName="puertas" />
-                <ScalarProperty Name="disponible" ColumnName="disponible" />
-                <ScalarProperty Name="id" ColumnName="id" />
-                <ScalarProperty Name="categoriaID" ColumnName="categoriaID" />
-                <ScalarProperty Name="modelo" ColumnName="modelo" />
-                <ScalarProperty Name="capacidad" ColumnName="capacidad" />
-                <ScalarProperty Name="transmision" ColumnName="transmision" />
-                <ScalarProperty Name="aire_acondicionado" ColumnName="aire_acondicionado" />
-                <ScalarProperty Name="cierre_centralizado" ColumnName="cierre_centralizado" />
-                <ScalarProperty Name="abono" ColumnName="abono" />
-                <ScalarProperty Name="valor" ColumnName="valor" />
-                <ScalarProperty Name="url_foto" ColumnName="url_foto" />
+          <EntitySetMapping Name="Comuna">
+            <EntityTypeMapping TypeName="RentaCarModel.Comuna">
+              <MappingFragment StoreEntitySet="Comuna">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="id_ciudad" ColumnName="id_ciudad" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="AspNetRoles">
-            <EntityTypeMapping TypeName="RentaCarModel.AspNetRoles">
-              <MappingFragment StoreEntitySet="AspNetRoles">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserClaims">
-            <EntityTypeMapping TypeName="RentaCarModel.AspNetUserClaims">
-              <MappingFragment StoreEntitySet="AspNetUserClaims">
-                <ScalarProperty Name="ClaimValue" ColumnName="ClaimValue" />
-                <ScalarProperty Name="ClaimType" ColumnName="ClaimType" />
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUserLogins">
-            <EntityTypeMapping TypeName="RentaCarModel.AspNetUserLogins">
-              <MappingFragment StoreEntitySet="AspNetUserLogins">
-                <ScalarProperty Name="UserId" ColumnName="UserId" />
-                <ScalarProperty Name="ProviderKey" ColumnName="ProviderKey" />
-                <ScalarProperty Name="LoginProvider" ColumnName="LoginProvider" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="AspNetUsers">
-            <EntityTypeMapping TypeName="RentaCarModel.AspNetUsers">
-              <MappingFragment StoreEntitySet="AspNetUsers">
-                <ScalarProperty Name="Apellido" ColumnName="Apellido" />
-                <ScalarProperty Name="Nombre" ColumnName="Nombre" />
-                <ScalarProperty Name="UserName" ColumnName="UserName" />
-                <ScalarProperty Name="AccessFailedCount" ColumnName="AccessFailedCount" />
-                <ScalarProperty Name="LockoutEnabled" ColumnName="LockoutEnabled" />
-                <ScalarProperty Name="LockoutEndDateUtc" ColumnName="LockoutEndDateUtc" />
-                <ScalarProperty Name="TwoFactorEnabled" ColumnName="TwoFactorEnabled" />
-                <ScalarProperty Name="PhoneNumberConfirmed" ColumnName="PhoneNumberConfirmed" />
-                <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="SecurityStamp" ColumnName="SecurityStamp" />
-                <ScalarProperty Name="PasswordHash" ColumnName="PasswordHash" />
-                <ScalarProperty Name="EmailConfirmed" ColumnName="EmailConfirmed" />
-                <ScalarProperty Name="Email" ColumnName="Email" />
-                <ScalarProperty Name="Id" ColumnName="Id" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <AssociationSetMapping Name="AspNetUserRoles" TypeName="RentaCarModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
-            <EndProperty Name="AspNetUsers">
-              <ScalarProperty Name="Id" ColumnName="UserId" />
-            </EndProperty>
-            <EndProperty Name="AspNetRoles">
-              <ScalarProperty Name="Id" ColumnName="RoleId" />
-            </EndProperty>
-          </AssociationSetMapping>
           <EntitySetMapping Name="DetalleSeguro">
             <EntityTypeMapping TypeName="RentaCarModel.DetalleSeguro">
               <MappingFragment StoreEntitySet="DetalleSeguro">
-                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
-                <ScalarProperty Name="id_seguro" ColumnName="id_seguro" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="id_seguro" ColumnName="id_seguro" />
+                <ScalarProperty Name="id_orden" ColumnName="id_orden" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Orden">
+            <EntityTypeMapping TypeName="RentaCarModel.Orden">
+              <MappingFragment StoreEntitySet="Orden">
+                <ScalarProperty Name="fecha_creacion" ColumnName="fecha_creacion" />
+                <ScalarProperty Name="total_final" ColumnName="total_final" />
+                <ScalarProperty Name="total_precio_seguro" ColumnName="total_precio_seguro" />
+                <ScalarProperty Name="total_precio_abono" ColumnName="total_precio_abono" />
+                <ScalarProperty Name="total_precio_dias" ColumnName="total_precio_dias" />
+                <ScalarProperty Name="fecha_hasta" ColumnName="fecha_hasta" />
+                <ScalarProperty Name="fecha_desde" ColumnName="fecha_desde" />
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="desde" ColumnName="desde" />
+                <ScalarProperty Name="hasta" ColumnName="hasta" />
+                <ScalarProperty Name="tiempo_desde" ColumnName="tiempo_desde" />
+                <ScalarProperty Name="tiempo_hasta" ColumnName="tiempo_hasta" />
+                <ScalarProperty Name="dias_totales" ColumnName="dias_totales" />
+                <ScalarProperty Name="vehiculoID" ColumnName="vehiculoID" />
+                <ScalarProperty Name="estado" ColumnName="estado" />
+                <ScalarProperty Name="userID" ColumnName="userID" />
+                <ScalarProperty Name="comuna" ColumnName="comuna" />
+                <ScalarProperty Name="direccion" ColumnName="direccion" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
           <EntitySetMapping Name="Seguro">
             <EntityTypeMapping TypeName="RentaCarModel.Seguro">
               <MappingFragment StoreEntitySet="Seguro">
-                <ScalarProperty Name="valor" ColumnName="valor" />
-                <ScalarProperty Name="nombre" ColumnName="nombre" />
                 <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="nombre" ColumnName="nombre" />
+                <ScalarProperty Name="informacion" ColumnName="informacion" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="Vehiculo">
+            <EntityTypeMapping TypeName="RentaCarModel.Vehiculo">
+              <MappingFragment StoreEntitySet="Vehiculo">
+                <ScalarProperty Name="id" ColumnName="id" />
+                <ScalarProperty Name="categoriaID" ColumnName="categoriaID" />
+                <ScalarProperty Name="modelo" ColumnName="modelo" />
+                <ScalarProperty Name="capacidad" ColumnName="capacidad" />
+                <ScalarProperty Name="transmision" ColumnName="transmision" />
+                <ScalarProperty Name="puertas" ColumnName="puertas" />
+                <ScalarProperty Name="aire_acondicionado" ColumnName="aire_acondicionado" />
+                <ScalarProperty Name="cierre_centralizado" ColumnName="cierre_centralizado" />
+                <ScalarProperty Name="abono" ColumnName="abono" />
+                <ScalarProperty Name="valor" ColumnName="valor" />
+                <ScalarProperty Name="url_foto" ColumnName="url_foto" />
+                <ScalarProperty Name="disponible" ColumnName="disponible" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <AssociationSetMapping Name="AspNetUserRoles" TypeName="RentaCarModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
+            <EndProperty Name="AspNetRoles">
+              <ScalarProperty Name="Id" ColumnName="RoleId" />
+            </EndProperty>
+            <EndProperty Name="AspNetUsers">
+              <ScalarProperty Name="Id" ColumnName="UserId" />
+            </EndProperty>
+          </AssociationSetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

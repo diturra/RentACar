@@ -12,28 +12,19 @@ namespace RentaCar.Datos
     using System;
     using System.Collections.Generic;
     
-    public partial class Vehiculo
+    public partial class Comuna
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public Vehiculo()
+        public Comuna()
         {
             this.Orden = new HashSet<Orden>();
         }
     
-        public int id { get; set; }
-        public int categoriaID { get; set; }
-        public string modelo { get; set; }
-        public int capacidad { get; set; }
-        public string transmision { get; set; }
-        public int puertas { get; set; }
-        public bool aire_acondicionado { get; set; }
-        public bool cierre_centralizado { get; set; }
-        public int abono { get; set; }
-        public int valor { get; set; }
-        public string url_foto { get; set; }
-        public bool disponible { get; set; }
+        public int ID { get; set; }
+        public int id_ciudad { get; set; }
+        public string nombre { get; set; }
     
-        public virtual Categoria Categoria { get; set; }
+        public virtual Ciudad Ciudad { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<Orden> Orden { get; set; }
     }

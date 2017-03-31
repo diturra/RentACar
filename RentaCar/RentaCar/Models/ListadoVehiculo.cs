@@ -12,5 +12,7 @@ namespace RentaCar.Models
         public List<Vehiculo> listaNodisponible { get; set; }
 
         public List<Categoria> listaCategoria { get; set; }
+
+        public List<Comuna> Comunas { get; set; }
     }
 }

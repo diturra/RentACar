@@ -1,98 +1,264 @@
 ﻿@model RentaCar.Models.CompraIndex
-    @using RentaCar.Models
+@using RentaCar.Models
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
+@section estilo{
+    <style type="text/css">
+        li {
+            color: #FBB448;
+        }
 
+            li span {
+                color: black;
+            }
 
+        .btn-seguros {
+            padding: 10px 20px;
+            background: rgb(160, 107, 28);
+            color: #000;
+            border: 2px solid #000000;
+        }
 
-    <div class="gtco-container">
-        <div class="row" style="padding-top:30px;">
-            <div class="col-md-4">
-                <img src="@Model.Vehiculo.url_foto" class="img-responsive" />
-                <div class="">
-                    <h3 style="color:#FBB448 !important; text-align: center;">@Model.Vehiculo.modelo</h3>
-                </div>
+            .btn-seguros:hover {
+                padding: 10px 20px;
+                background: #fcbe61;
+                color: #000;
+                border: 2px solid #000000;
+            }
+
+        .barra {
+            padding: 20px 30px;
+            border-top: 10px solid #FBB448;
+            border-bottom: 10px solid #FBB448;
+            text-align: left;
+        }
+
+        .inputModal {
+            box-shadow: none;
+            background: transparent;
+            border: 2px solid rgba(0, 0, 0, 0.1);
+            height: 20px;
+            font-size: 16px;
+            font-weight: 300;
+            padding-left: 15px;
+            padding-right: 15px;
+        }
+    </style>
+}
+
+<div class="gtco-container" style="font-size:14px;">
+    <div class="row" style="padding-top:30px;">
+        <div class="col-md-4">
+            <img src="@Model.Vehiculo.url_foto" class="img-responsive" />
+            <div class="">
+                <h3 style="color:#FBB448 !important; text-align: center;">@Model.Vehiculo.modelo</h3>
+                <hr />
+                <ul>
+                    <li><span>@Model.Vehiculo.Categoria.nombre</span></li>
+                    <li><span>@(Model.Vehiculo.aire_acondicionado ? "Aire acondicionado" : "No tiene aire acondicionado")</span></li>
+                    <li><span>Para @Model.Vehiculo.capacidad personas Max</span></li>
+                    <li><span>Transmision @Model.Vehiculo.transmision</span></li>
+                </ul>
             </div>
-            <div class="col-md-8 text-center">
-                    <div class="col-md-12 mt-text animate-box" data-animate-effect="fadeInUp">
+        </div>
+        <div class="col-md-8 text-center">
+            <div class="row mt-text animate-box" data-animate-effect="fadeInUp">
 
-                        <span class="intro-text-small">Fecha de entrega y salida</span>
-                        <div class="barra">
-                            <div class="row form-group">
-                                <div class="col-md-3">
-                                    <label for="date-start" class="text-uppercase">Desde </label>
-                                    <input type="text" class="form-control" value="@Model.buscador.Fechadesde" readonly>
-                                </div>
-                                <div class="col-md-2">
-                                    <label for="date-start" class="text-uppercase">Hora </label>
-                                    <input type="text" class="form-control" value="@Model.buscador.Timedesde" readonly>
-                                </div>
-                                <div class="col-md-2" style="padding-top:38px;">
-                                    <span class="glyphicon glyphicon-arrow-right fa-lg"></span>
-                                </div>
-                                <div class="col-md-3">
-                                    <label for="date-start" class="text-uppercase">Hasta </label>
-                                    <input type="text"class="form-control" value="@Model.buscador.Fechahasta" readonly>
-                                </div>
-                                <div class="col-md-2">
-                                    <label for="date-start" class="text-uppercase">Hora </label>
-                                    <input type="text" class="form-control" value="@Model.buscador.Timehasta" readonly>
-                                </div>
-                            </div>
-                           <hr />
-                            <div class="row">
-                                <div class="col-md-4">
-                                    <p><span class="glyphicon glyphicon-ok primary-color fa-lg" aria-hidden="true"></span>@Model.buscador.Dias Dias</p>
-                                 
-                                </div>
-                                <div class="col-md-4">
-                                    <span class="glyphicon glyphicon-arrow-right fa-lg"></span>
-                            
-                                </div>
-                                <div class="col-md-4">
-                                    <p>@string.Format("{0:N0}", Model.Vehiculo.valor) X @Model.buscador.Dias DIAS</p>                                  
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-4">                               
-                                </div>
-                                <div class="col-md-4">
-                                  
-                                    <h2 style="padding-top:20px;">Total .</h2>
-                                </div>
-                                <div class="col-md-4">
-                                    <div style="border:solid 2px; text-align:center;box-shadow: 0px 1px 20px 0px rgba(0, 0, 0,3); border-color:#FBB448;">
-                                        <h2 style="padding-top:10px;">@string.Format("{0} {1:N0}", "$", Model.buscador.TotalPorDias)</h2>
-                                    </div>
-                                </div>
-                            </div>
-                        
+                <span class="intro-text-small">Fecha de entrega y salida</span>
+                <div class="barra">
+                    <div class="row form-group">
+                        <div class="col-md-3">
+                            <label for="date-start" class="text-uppercase">Desde </label>
+                            <input type="text" class="form-control" value="@Model.buscador.Fechadesde" readonly>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="date-start" class="text-uppercase">Hora </label>
+                            <input type="text" class="form-control" value="@Model.buscador.Timedesde" readonly>
+                        </div>
+                        <div class="col-md-2" style="padding-top:38px;">
+                            <span class="glyphicon glyphicon-arrow-right fa-lg"></span>
+                        </div>
+                        <div class="col-md-3">
+                            <label for="date-start" class="text-uppercase">Hasta </label>
+                            <input type="text" class="form-control" value="@Model.buscador.Fechahasta" readonly>
+                        </div>
+                        <div class="col-md-2">
+                            <label for="date-start" class="text-uppercase">Hora </label>
+                            <input type="text" class="form-control" value="@Model.buscador.Timehasta" readonly>
                         </div>
                     </div>
-            </div>
-        </div>
-        <div class="page-header">
-            <h1>Seguros<small> e información</small></h1>
-        </div>
-        <div class="row">
-            <div class="jumbotron">
-                <h1>Hello, world!</h1>
-                <p>...</p>
-                <p><a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a></p>
+                    <hr />
+                    <div class="row">
+
+                        <table class="table col-md-12">
+                            <tr>
+                                <td>Ciudad</td>
+                                <td><span class="glyphicon glyphicon-arrow-right fa-lg"></span></td>
+                                <td><span class="glyphicon glyphicon-ok primary-color fa-lg" aria-hidden="true"></span><strong> Santiago</strong></td>
+
+                            </tr>
+                            <tr>
+                                <td>Comuna</td>
+                                <td><span class="glyphicon glyphicon-arrow-right fa-lg"></span></td>
+                                <td><span class="glyphicon glyphicon-ok primary-color fa-lg" aria-hidden="true"></span><strong> @Model.buscador.ComunaNombre</strong></td>
+
+                            </tr>
+                            <tr>
+                                <td>Direccion</td>
+                                <td><span class="glyphicon glyphicon-arrow-right fa-lg"></span></td>
+                                <td><span class="glyphicon glyphicon-ok primary-color fa-lg" aria-hidden="true"></span><strong> @Model.buscador.Direccion</strong></td>
+
+                            </tr>
+                        </table>
+
+                    </div>
+                </div>
             </div>
         </div>
     </div>
+    <hr />
+
+    @*ACA ROW DE SEGUROS*@
+
+    <div class="row">
+        <div class="col-md-5">
+            <div class="page-header">
+                <h1>Seguros<small class="primary-color"> e información</small></h1>
+            </div>
+            @foreach (var item in Model.Seguros.ToList())
+            {
+                <div class="panel">
+                    <div class="row" style="background-color:#eeeeee; padding: 1%;">
+                        <div class="col-md-1">
+                            <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+                        </div>
+                        <div class="col-md-2" style="font-size:small;">
+                            <strong>@item.nombre</strong>
+                        </div>
+                        <div class="col-md-5" style="font-size:small;">
+                            @item.informacion
+                        </div>
+                        <div class="col-md-2">
+                            @string.Format("{0:N0}", item.valor)
+                        </div>
+                        <div class="col-md-1" style="padding:1%;">
+                            <button class="btn btn-seguros" name="btnSeguro_@item.id" id="btnSeguro_@item.id" style="padding:10px 20px;" onclick="btnSeguro(@item.id)" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+
+        @*//ACA RESUMEN DEL ALQUILER*@
+
+        <div class="col-md-7">
+            <div class="page-header">
+                <h1>Resumen<small> de tu alquiler</small></h1>
+            </div>
+            <div class="panel">
+                <div class="panel-body">
+                    <table class="table" id="tablafinal">
+                        <tr>
+                            <td>Valor diario @Model.Vehiculo.valor x @Model.buscador.Dias Dias</td>
+                            <td>--</td>
+                            <td>@string.Format("{0} {1:N0}", "$", Model.buscador.TotalPorDias)</td>
+                            <td><span class="glyphicon glyphicon-ok primary-color fa-lg" aria-hidden="true"></span></td>
+                        </tr>
+                        <tr class="success">
+                            <td>Abono @Model.Vehiculo.abono x @Model.buscador.Dias Dias (Dinero devuelto)</td>
+                            <td>--</td>
+                            <td>@string.Format("{0} {1:N0}", "$", Model.buscador.AbonoPorDias)</td>
+                            <td><span class="glyphicon glyphicon-info-sign fa-lg" aria-hidden="true"></span> </td>
+                        </tr>
+                        @if (Model.buscador.Seguros != null)
+                        {
+                            foreach (var item in Model.buscador.Seguros)
+                            {
+                                <tr>
+                                    <td>@item.nombre</td>
+                                    <td>--</td>
+                                    <td>@string.Format("{0} {1:N0}", "$", @item.valor)</td>
+                                    <td><span class='glyphicon glyphicon-lock primary-color fa-lg' aria-hidden='true'></span></td>
+                                </tr>
+                            }
+                        }
+                    </table>
+                    <div class="row">
+
+                    </div>
+
+                    <div class="row">
+
+                        <div class="col-md-4">
+
+                            <h2 style="padding-top:20px;">Total .</h2>
+                        </div>
+                        <div class="col-md-4">
+                            <div style="border:solid 2px; text-align:center;box-shadow: 0px 1px 20px 0px rgba(0, 0, 0,3); border-color:#FBB448;">
+                                <h2 id="totalfinal" style="padding-top:10px;">@string.Format("{0} {1:N0}", "$", Model.buscador.TotalFinal)</h2>
+                            </div>
+                        </div>
+
+                        <div class="col-md-4" style="text-align: center;">
+                            <button class="btn btn-primary" onclick="location.href='@Url.Action("SeleccionPago","Compra")'" style="border-radius: 0;padding: 10%;">Arrendar</button>
+                        </div>
+                    </div>
 
 
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
 
-<style>
-    .barra {
-    padding: 20px 30px;
-    border-top: 10px solid #FBB448;
-    border-bottom: 10px solid #FBB448;
-    text-align: left;
+    </div>
+</div>
+
+@section scripts{
+    <script type="text/javascript">
+        function btnSeguro(idseguro) {
+            $.ajax({
+                type: "POST",
+                url: "/Compra/LlenandoSeguros",
+                data: '{idseguro: "' + idseguro + '" }',
+                contentType: "application/json; charset=utf-8",
+                dataType: "json",
+                success: function (response) {
+                
+                    var repite = 0;
+                    var nombrecomparar = response.Nombre;
+
+                    $('#tablafinal tr').each(function () {
+                        var nombreseguro = $(this).find("td").eq(0).html();
+                    
+                        if (response.Nombre == nombreseguro) {
+                            $(this).remove();
+                            $("#totalfinal").html(response.ValorFinal);
+                            repite = 1;
+                            $("#btnSeguro_" + response.IdSeguro).html("<span class='glyphicon glyphicon-plus' aria-hidden='true'></span>");
+                        }
+                    });
+
+                    if (repite == 0) {
+                        var nuevafila = "<tr><td>" + response.Nombre + "</td><td>--</td><td>" + response.Valor + "</td><td><span class='glyphicon glyphicon-lock primary-color fa-lg' aria-hidden='true'></span></td></tr>";
+                        $("#tablafinal").append(nuevafila);
+                        $("#totalfinal").html(response.ValorFinal);
+                        $("#btnSeguro_" + response.IdSeguro).html("<span class='glyphicon glyphicon-ok' aria-hidden='true'></span>");                   
+                        console.log($("#btnSeguro_" + response.IdSeguro));
+                    }
+                   
+
+                },
+                failure: function (response) {
+                    alert("fail");
+                },
+                error: function (response) {
+                    alert("error");
+                }
+            });
+        }
+    </script>
 }
-</style>
 

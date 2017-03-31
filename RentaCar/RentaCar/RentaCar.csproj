@@ -226,6 +226,12 @@
     <Compile Include="Datos\Categoria.cs">
       <DependentUpon>RentEDM.tt</DependentUpon>
     </Compile>
+    <Compile Include="Datos\Ciudad.cs">
+      <DependentUpon>RentEDM.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Datos\Comuna.cs">
+      <DependentUpon>RentEDM.tt</DependentUpon>
+    </Compile>
     <Compile Include="Datos\DetalleSeguro.cs">
       <DependentUpon>RentEDM.tt</DependentUpon>
     </Compile>
@@ -266,9 +272,13 @@
     <Compile Include="Models\CompraIndex.cs" />
     <Compile Include="Models\Enum\EstadoOrden.cs" />
     <Compile Include="Models\FiltroFechas.cs" />
+    <Compile Include="Models\HomeIndex.cs" />
+    <Compile Include="Models\HomeReservaVehiculo.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ListadoVehiculo.cs" />
+    <Compile Include="Models\LugarModal.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
+    <Compile Include="Models\SeguroString.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -365,13 +375,6 @@
     <Content Include="ApplicationInsights.config">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
-    <EntityDeploy Include="Datos\RentEDM.edmx">
-      <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>RentEDM.Designer.cs</LastGenOutput>
-    </EntityDeploy>
-    <Content Include="Datos\RentEDM.edmx.diagram">
-      <DependentUpon>RentEDM.edmx</DependentUpon>
-    </Content>
     <Content Include="fonts\themify-icons\themify.eot" />
     <Content Include="fonts\themify-icons\themify.ttf" />
     <Content Include="fonts\themify-icons\themify.woff" />
@@ -399,6 +402,13 @@
     <Content Include="Content\bootstrap.css.map" />
     <Content Include="Content\bootstrap-theme.min.css.map" />
     <Content Include="Content\bootstrap-theme.css.map" />
+    <EntityDeploy Include="Datos\RentEDM.edmx">
+      <Generator>EntityModelCodeGenerator</Generator>
+      <LastGenOutput>RentEDM.Designer.cs</LastGenOutput>
+    </EntityDeploy>
+    <Content Include="Datos\RentEDM.edmx.diagram">
+      <DependentUpon>RentEDM.edmx</DependentUpon>
+    </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -423,7 +433,7 @@
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />
     <Content Include="Views\Shared\_Layout.cshtml" />
-    <Content Include="Views\Home\About.cshtml" />
+    <Content Include="Views\Home\ReservaVehiculo.cshtml" />
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
@@ -452,6 +462,7 @@
     <Content Include="Views\Home\_Buscador.cshtml" />
     <Content Include="Views\Home\_AutosBuscar.cshtml" />
     <Content Include="Views\Compra\Index.cshtml" />
+    <Content Include="Views\Compra\SeleccionPago.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

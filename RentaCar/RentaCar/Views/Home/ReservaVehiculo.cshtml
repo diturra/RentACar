@@ -1,15 +1,7 @@
-﻿@model RentaCar.Models.HomeIndex
+﻿@model RentaCar.Models.HomeReservaVehiculo
 @{
-    ViewBag.Title = "Home Page";
+    ViewBag.Title = "About";
 }
-@Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/bootstrap")
-@section estilo{
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/css/bootstrap-select.min.css">
-
-<!-- Latest compiled and minified JavaScript -->
-}
-
 <header id="gtco-header" class="gtco-cover gtco-cover-md" role="banner" style="background-image: url('../../Imagenes/Fondo_Index.jpg');" data-stellar-background-ratio="0.5">
     <div class="overlay"></div>
     <div class="gtco-container">
@@ -17,28 +9,25 @@
             <div class="col-md-12 col-md-offset-0 text-left">
 
                 <div class="row row-mt-10em">
-                    <div class="col-md-7 mt-text animate-box" data-animate-effect="fadeInUp">
-                        <span class="intro-text-small"> Reserva tu vehiculo <a>ONLINE</a></span>
-                        <h1 class="cursive-font">De forma segura y confiable!</h1>
-                    </div>
-                    <div class="col-md-4 col-md-push-1 animate-box" data-animate-effect="fadeInRight">
+                    <div class="col-md-12">
                         <div class="form-wrap">
                             <div class="tab">
 
-                                <div class="tab-content">
+                                <div class="tab-content" style="background: rgba(0, 0, 0, 0.9);">
                                     <div class="tab-content-inner active" data-content="signup">
-                                        <h3 class="cursive-font">Buscar</h3>
-                                        @using (Html.BeginForm("Buscar", "Home", FormMethod.Get, new { @id="form" }))
+                                        <h3 class="cursive-font">Fechas <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span></h3>
+                                        <br />
+                                        @using (Html.BeginForm("Buscar", "Home", FormMethod.Get, new { @id = "form" }))
                                         {
-                                            <div class="row form-group ">
-                                                <div class="col-md-12"> 
+                                            <div class="form-group ">
+                                                <div class="col-md-6">
                                                     <label for="date-start">Fecha de salida</label>
-                                                    <input type="text" data-format="DD-MM-YYYY" name="Fechadesde" placeholder="Ingresar fecha..." id="datedesde" value="@Model.busquedaPrincipal.Fechadesde" class="form-control">
+                                                    <input type="text" data-format="DD-MM-YYYY" name="Fechadesde" placeholder="Ingresar fecha..." value="@Model.busquedaPrincipal.Fechadesde" id="datedesde" class="form-control">
                                                 </div>
                                             </div>
                                             <div class="row form-group ">
-                                                <div class="col-md-12">
-                                                    
+                                                <div class="col-md-6">
+
                                                     <label for="date-start">Hora de salida</label>
                                                     <select name="Timedesde" id="timedesde" class="form-control">
                                                         @if (!string.IsNullOrEmpty(Model.busquedaPrincipal.Timedesde))
@@ -57,20 +46,20 @@
                                                         <option style="color:gray;" value="17:00">17:00</option>
                                                         <option style="color:gray;" value="18:00">18:00</option>
                                                         <option style="color:gray;" value="19:00">19:00</option>
-                                                        
+
                                                     </select>
-                                                  
+
                                                 </div>
                                             </div>
-                                            <hr />
-                                            <div class="row form-group">
-                                                <div class="col-md-12">
+                                          
+                                            <div class="form-group">
+                                                <div class="col-md-6">
                                                     <label for="date-start">Fecha de retorno</label>
                                                     <input type="text" name="Fechahasta" id="datehasta" value="@Model.busquedaPrincipal.Fechahasta" placeholder="Ingresar fecha..." class="form-control">
                                                 </div>
                                             </div>
                                             <div class="row form-group">
-                                                <div class="col-md-12">
+                                                <div class="col-md-6">
                                                     <label for="date-start">Hora de retorno</label>
                                                     <select name="Timehasta" id="timehasta" class="form-control">
                                                         @if (!string.IsNullOrEmpty(Model.busquedaPrincipal.Timedesde))
@@ -93,10 +82,44 @@
                                                     </select>
                                                 </div>
                                             </div>
+                                            <hr>
+                                            <h3 class="cursive-font">Tu ubicacion para llevar el vehiculo <i class="fa fa-thumb-tack" aria-hidden="true"></i></h3>
+                                            <br />
+                                            <div class="row form-group">
+                                                <label class="col-md-3 control-label">Ciudad</label>
+                                                <div class="col-md-5">
+                                                    <input type="text" id="Ciudad" name="Ciudad" style="background: transparent;" class="form-control" value="Santiago" readonly/>
+                                                </div>
+                                            </div>
+
+                                            <div class="row form-group">
+                                                <label class="col-md-3 control-label">Comuna</label>
+                                                <div class="col-md-5">
+                                                    <select id="Comuna" name="Comuna" class="form-control">
+                                                        @if (Model.busquedaPrincipal.Comuna!=0)
+                                                        {
+                                                            <option style="color:gray;" value="@Model.busquedaPrincipal.Comuna">@Model.busquedaPrincipal.ComunaNombre</option>
+                                                        }
+                                                        @foreach (var item in Model.Comunas.OrderBy(x => x.nombre))
+                                                            {
+                                                                <option style="color:gray;" value="@item.ID">@item.nombre</option>
+                                                            }
+                                                    </select>
+
+                                                </div>
+                                            </div>
+                                            <div class="row form-group">
+                                                <label class="col-md-3 control-label">Direccion</label>
+                                                <div class="col-md-5">
+                                                    <input type="text" id="Direccion" name="Direccion" value="@Model.busquedaPrincipal.Direccion" class="form-control" required />
+                                                </div>
+                                            </div>
+
+
                                             <div class="row form-group">
                                                 <div class="col-md-12">
                                                     <input type="button" onclick="ValidarFechas()" class="btn btn-primary btn-block" value="Buscar">
-                                                 
+
                                                 </div>
                                             </div>
                                         }
@@ -113,105 +136,9 @@
         </div>
     </div>
 </header>
-
-
-<div class="gtco-section">
-    <div class="gtco-container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 text-center gtco-heading">
-                <h2 class="primary-color">Nuestros vehiculos</h2>
-                <p>Contamos con vehiculos en excelente estado y para sentirte seguro con sistema GPS.</p>
-            </div>
-        </div>
-        <div class="row">
-            @Html.Partial("_CartaVehiculo",Model.ListaVehiculos)
-        </div>
-    </div>
-</div>
-
-<div id="gtco-features">
-    <div class="gtco-container">
-        <div class="row">
-            <div class="col-md-8 col-md-offset-2 text-center gtco-heading animate-box">
-                <h2>Nuestros servicios</h2>
-                <p>En Loyca es tres simples pasos puedes pedir tu vehiculo.</p>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-md-4 col-sm-6">
-                <div class="feature-center animate-box" data-animate-effect="fadeIn">
-                    <span class="icon">
-                        <i class="ti-car"></i>
-                    </span>
-                    <h3>Escoger</h3>
-                    <p>Reserva tu vehiculo online a traves de nuesro formulario, escoge cual te acomoda y reservalo</p>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <div class="feature-center animate-box" data-animate-effect="fadeIn">
-                    <span class="icon">
-                        <i class="ti-money"></i>
-                    </span>
-                    <h3>Pago</h3>
-                    <p>Paga la reserva a traves de una transferencia electronica, o efectivo al momento del encuentro</p>
-                </div>
-            </div>
-            <div class="col-md-4 col-sm-6">
-                <div class="feature-center animate-box" data-animate-effect="fadeIn">
-                    <span class="icon">
-                        <i class="ti-check"></i>
-                    </span>
-                    <h3>El vehiculo listo para usar</h3>
-                    <p>Listo ! te hacemos llegar el vehiculo donde te encuentres</p>
-                </div>
-            </div>
-
-        </div>
-    </div>
-</div>
-
-<div class="gtco-cover gtco-cover-sm" style="" data-stellar-background-ratio="0.5">
-    <div class="overlay"></div>
-    <div class="gtco-container text-center">
-        <div class="display-t">
-            <div class="display-tc">
-                <h1>&ldquo; Te sentiras seguro y confiado al momento de conocernos&rdquo;</h1>
-                <p>&mdash; Marco Olavarria, fundador proyecto Loyca.</p>
-            </div>
-        </div>
-    </div>
-</div>
-
-<footer id="gtco-footer" role="contentinfo" data-stellar-background-ratio="0.5">
-    <div class="overlay"></div>
-    <div class="gtco-container">
-        <div class="row row-pb-md">
-
-
-            <div class="col-md-12 text-center">
-                <div class="gtco-widget">
-                    <h3>Contacto Directo.</h3>
-                    <ul class="gtco-quick-contact">
-                        <li><i class=""></i> +1 234 567 890</li>
-                        <li><i class="ti-email"></i> info@GetTemplates.co</li>
-
-                    </ul>
-                </div>
-                <div class="gtco-widget">
-                    <h3>Estamos en las redes sociales</h3>
-                    <ul class="gtco-social-icons">
-                        <li><a href="#"><i class="ti-facebook"></i></a></li>
-                        <li><a href="#"><i class="ti-twitter"></i></a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-
-    </div>
-</footer>
 @section Scripts {
-<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
-<script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.12.2/js/bootstrap-select.min.js"></script>
+    <script>
     function ValidarFechas() {
         var timedesde = $('#timedesde').val().split(":");
         var timehasta = $('#timehasta').val().split(":");
@@ -237,10 +164,15 @@
                 return false;
             }
         }
-        
+        if ($('#Direccion').val() == "")
+        {
+            swal("Completar direccion");
+            return false;
+        }
+
         $('#form').submit();
 
     }
-</script>
+    </script>
 
-    }
+}

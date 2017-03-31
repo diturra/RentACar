@@ -7,8 +7,9 @@ namespace RentaCar.Models.Enum
 {
     public enum EstadoOrden
     {
-        Creado = 1,
-        Confirmado = 2,
+        Creado = 0,
+        Confirmado = 1,
+        Pagado = 2,
         Cancelado = 5
     }
 }

@@ -12,11 +12,20 @@ namespace RentaCar.Controllers
 {
     public class HomeController : Controller
     {
+      private RentaCarEntities db = new RentaCarEntities();
         public ActionResult Index()
         {
-            RentaCarEntities db = new RentaCarEntities();
-            
-            return View(db.Vehiculo.ToList());
+            BuscadorPrincipal bp = new BuscadorPrincipal();
+            if(Session["fechas"] != null)
+            {
+                bp = (BuscadorPrincipal)Session["fechas"];
+            }
+            HomeIndex hi = new HomeIndex()
+            {
+                ListaVehiculos = db.Vehiculo.ToList(),
+                busquedaPrincipal = bp
+            };
+            return View(hi);
         }
 
         public ActionResult IndexLogin()
@@ -24,11 +33,20 @@ namespace RentaCar.Controllers
             return View();
         }
 
-        public ActionResult About()
+        public ActionResult ReservaVehiculo()
         {
-            ViewBag.Message = "Your application description page.";
+            BuscadorPrincipal bp = new BuscadorPrincipal();
+            if (Session["fechas"] != null)
+            {
+                bp = (BuscadorPrincipal)Session["fechas"];
+            }
+            HomeReservaVehiculo Hrv = new HomeReservaVehiculo()
+            {
+                Comunas = db.Comuna.ToList(),
+                busquedaPrincipal = bp
+            };
 
-            return View();
+            return View(Hrv);
         }
 
         public ActionResult Contact()
@@ -40,7 +58,7 @@ namespace RentaCar.Controllers
         [HttpGet]
         public ActionResult Buscar(BuscadorPrincipal model)
         {
-            RentaCarEntities db = new RentaCarEntities();
+         
             ListadoVehiculo listado;
             DateTime desde;
             DateTime hasta;
@@ -67,18 +85,28 @@ namespace RentaCar.Controllers
                 model.Fechacompletadesde = desde;
                 model.Fechacompletahasta = hasta;
 
+                if(!string.IsNullOrEmpty(model.Direccion))   //compruebo si hay direccion para levantar el modal.
+                {
+                    ViewBag.Direccion = "Si";
+                }
+                if(model.Comuna !=0)
+                {
+                    model.ComunaNombre = db.Comuna.FirstOrDefault(x => x.ID == model.Comuna).nombre;
+                }
+
                 Session["fechas"] = model;
                 if (ordenes.Count() == 0) //si es 0 que no avance para que no caiga el programa
                 {
                     listado = new ListadoVehiculo()
                     {
                         listadisponibles = db.Vehiculo.ToList(),
-                        listaNodisponible = new List<Vehiculo>()
+                        listaNodisponible = new List<Vehiculo>(),
+                        listaCategoria = db.Categoria.ToList(),
+                        Comunas = db.Comuna.ToList()
                     };
                     return View(listado);
                 }
                     
-
 
                 List<FiltroFechas> filtroFechas = new List<FiltroFechas>();
 
@@ -128,7 +156,8 @@ namespace RentaCar.Controllers
                 {
                     listadisponibles = listavehiculo.OrderByDescending(x => x.valor).ToList(),
                     listaNodisponible = listanodisponible.OrderByDescending(x => x.valor).ToList(),
-                    listaCategoria = db.Categoria.ToList()
+                    listaCategoria = db.Categoria.ToList(),
+                    Comunas = db.Comuna.ToList()
                 };
 
                 return View(listado);
@@ -149,6 +178,23 @@ namespace RentaCar.Controllers
             
 
             return View(lista);
+        }
+
+        [HttpPost]
+        public ActionResult CrearOrdenModal(LugarModal lugar)
+        {
+            BuscadorPrincipal principal = (BuscadorPrincipal)Session["fechas"];
+            lugar.Ciudad = "Santiago";
+            if (ModelState.IsValid)
+            {             
+                principal.Direccion = lugar.Direccion;
+                principal.Comuna = int.Parse(lugar.Comuna);
+
+                principal.ComunaNombre = db.Comuna.FirstOrDefault(x => x.ID == principal.Comuna).nombre;
+                Session["fechas"] = principal;
+
+            }
+            return RedirectToAction("Buscar","Home", principal);
         }
     }
 }

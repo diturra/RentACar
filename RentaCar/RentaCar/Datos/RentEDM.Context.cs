@@ -25,14 +25,16 @@ namespace RentaCar.Datos
             throw new UnintentionalCodeFirstException();
         }
     
-        public virtual DbSet<Categoria> Categoria { get; set; }
-        public virtual DbSet<Orden> Orden { get; set; }
-        public virtual DbSet<Vehiculo> Vehiculo { get; set; }
         public virtual DbSet<AspNetRoles> AspNetRoles { get; set; }
         public virtual DbSet<AspNetUserClaims> AspNetUserClaims { get; set; }
         public virtual DbSet<AspNetUserLogins> AspNetUserLogins { get; set; }
         public virtual DbSet<AspNetUsers> AspNetUsers { get; set; }
+        public virtual DbSet<Categoria> Categoria { get; set; }
+        public virtual DbSet<Ciudad> Ciudad { get; set; }
+        public virtual DbSet<Comuna> Comuna { get; set; }
         public virtual DbSet<DetalleSeguro> DetalleSeguro { get; set; }
+        public virtual DbSet<Orden> Orden { get; set; }
         public virtual DbSet<Seguro> Seguro { get; set; }
+        public virtual DbSet<Vehiculo> Vehiculo { get; set; }
     }
 }

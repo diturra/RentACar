@@ -1,14 +1,16 @@
-﻿@model RentaCar.Models.ListadoVehiculo
+﻿
+@model RentaCar.Models.ListadoVehiculo
 @{
     ViewBag.Title = "Buscar";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var direccion = ViewBag.Direccion;
 }
 <br />
 <div class="gtco-container">
   
 
     <h2 class="primary-color text-center">Vehículos</h2>
-    @Html.Partial("_Buscador",Model.listaCategoria)
+    @*@Html.Partial("_Buscador",Model.listaCategoria)*@
     <div class="col-md-8">
         <div class="row">
             @foreach(var item in Model.listadisponibles)
@@ -74,3 +76,69 @@
     </div>
 
 </div>
+
+
+@*AREA MODAL*@
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" data-keyboard="false" data-backdrop="static">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title">Antes de comenzar, necesitamos ubicarte</h4>
+            </div>
+            <div class="modal-body">
+                <form id="formLugar" method="post" class="form-horizontal" action="@Url.Action("CrearOrdenModal","Home")">
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">Ciudad</label>
+                        <div class="col-xs-5">
+                            <input type="text" id="Ciudad" name="Ciudad" class="form-control" value="Santiago" readonly />
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">Comuna</label>
+                        <div class="col-xs-5">
+                            <select id="Comuna" name="Comuna" class="form-control">
+                                @foreach (var item in Model.Comunas.OrderBy(x => x.nombre))
+                                {
+                                    <option value="@item.ID">@item.nombre</option>
+                                }
+                            </select>
+
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="col-xs-3 control-label">Direccion</label>
+                        <div class="col-xs-5">
+                            <input type="text" id="Direccion" name="Direccion" class="form-control" />
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" onclick="Validar()">Guardar Lugar</button>
+            </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+@section Scripts{
+    <script>
+        var direccion = "@(string.IsNullOrEmpty(direccion) ? "" : direccion)";
+
+        if (direccion == "") {
+            $('#myModal').modal('show');
+        }
+    </script>
+
+    <script>
+        function Validar()
+        {
+            if ($('#Direccion').val() == "")
+            {
+                return false;
+            }
+            $('#formLugar').submit();
+        }
+    </script>
+}

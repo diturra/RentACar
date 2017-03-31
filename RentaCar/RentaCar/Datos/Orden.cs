@@ -23,20 +23,26 @@ namespace RentaCar.Datos
         public int id { get; set; }
         public System.DateTime desde { get; set; }
         public System.DateTime hasta { get; set; }
+        public string tiempo_desde { get; set; }
+        public string tiempo_hasta { get; set; }
         public int dias_totales { get; set; }
         public int vehiculoID { get; set; }
         public int estado { get; set; }
-        public int total { get; set; }
         public string userID { get; set; }
-        public string tiempo_desde { get; set; }
-        public string tiempo_hasta { get; set; }
-        public string ciudad { get; set; }
-        public string comuna { get; set; }
+        public int comuna { get; set; }
         public string direccion { get; set; }
+        public System.DateTime fecha_desde { get; set; }
+        public System.DateTime fecha_hasta { get; set; }
+        public int total_precio_dias { get; set; }
+        public int total_precio_abono { get; set; }
+        public int total_precio_seguro { get; set; }
+        public int total_final { get; set; }
+        public System.DateTime fecha_creacion { get; set; }
     
-        public virtual Vehiculo Vehiculo { get; set; }
         public virtual AspNetUsers AspNetUsers { get; set; }
+        public virtual Comuna Comuna1 { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<DetalleSeguro> DetalleSeguro { get; set; }
+        public virtual Vehiculo Vehiculo { get; set; }
     }
 }

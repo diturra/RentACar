@@ -6,13 +6,9 @@ using System.Web;
 
 namespace RentaCar.Models
 {
-    public class CompraIndex
+    public class HomeReservaVehiculo
     {
-        public BuscadorPrincipal buscador { get; set; }
-        public Vehiculo Vehiculo { get; set; }
-
-        public List<Seguro> Seguros { get; set; }
-
         public List<Comuna> Comunas { get; set; }
+        public BuscadorPrincipal busquedaPrincipal { get; set; }
     }
 }
